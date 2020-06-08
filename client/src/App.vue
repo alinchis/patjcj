@@ -1,8 +1,5 @@
 <template>
-  <q-layout
-    view="hHh lpR fFf"
-    class="aller-font"
-  >
+  <q-layout view="hHh lpR fFf" class="aller-font">
     <q-header
       elevated
       id="header"
@@ -11,13 +8,7 @@
       v-if="!isHomeRoute"
     >
       <q-toolbar>
-        <q-btn
-          dense
-          flat
-          round
-          icon="menu"
-          @click="left = !left"
-        />
+        <q-btn dense flat round icon="menu" @click="left = !left" />
 
         <q-toolbar-title class="row">
           <img
@@ -48,14 +39,8 @@
       </q-toolbar>
 
       <q-tabs align="left">
-        <q-route-tab
-          to="/lmi"
-          label="LMI"
-        />
-        <q-route-tab
-          to="/locuire"
-          label="Locuire"
-        />
+        <q-route-tab to="/lmi" label="LMI" />
+        <q-route-tab to="/locuire" label="Locuire" />
       </q-tabs>
     </q-header>
 
@@ -88,45 +73,45 @@
 </template>
 
 <script>
-import SearchPanel from "@/components/SearchPanel";
-import InfoPanel from "@/components/InfoPanel";
-import { mapState } from "vuex";
+import SearchPanel from '@/components/SearchPanel';
+import InfoPanel from '@/components/InfoPanel';
+import { mapState } from 'vuex';
 
 export default {
-  data () {
+  data() {
     return {
-      left: true
+      left: true,
     };
   },
   components: {
     SearchPanel,
-    InfoPanel
+    InfoPanel,
   },
   computed: {
     // if home route, hide all bars and panels
-    isHomeRoute () {
-      return this.$route.name === "home";
+    isHomeRoute() {
+      return this.$route.name === 'home';
     },
 
     ...mapState({
-      monumentDisplayed: state => state.monuments.monumentDisplayed,
-      monumentInfoShown: state =>
+      monumentDisplayed: (state) => state.monuments.monumentDisplayed,
+      monumentInfoShown: (state) =>
         state.monuments.monumentDisplayed &&
-        !!state.monuments.selectedItem["cod_lmi"]
-    })
+        !!state.monuments.selectedItem['cod_lmi'],
+    }),
   },
   created: async function () {
     // get monuments list
-    await this.$store.dispatch("monuments/getAllMonuments");
+    await this.$store.dispatch('monuments/getAllMonuments');
 
     // get monuments photos
     this.$store.dispatch(
-      "photos/getMonumentImages",
+      'photos/getMonumentImages',
       this.$store.state.photos.monumentShown.nr
     );
     // open the left panel
     this.left = true;
-  }
+  },
 };
 </script>
 
