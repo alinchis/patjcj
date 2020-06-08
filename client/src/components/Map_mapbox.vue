@@ -48,9 +48,9 @@ export default {
     return {
       accessToken:
         "pk.eyJ1IjoidHVkb3Jjb25zdGFudGluIiwiYSI6ImNrM29yN2t3cjBiMDkzaG80cTdiczhzMmIifQ.fqelSp0srqiSV3qkfbE2qQ",
-      mapStyle: "mapbox://styles/tudorconstantin/ck6e0nrah6h571ipdkgakat2u",
+      mapStyle: "mapbox://styles/tudorconstantin/ckb6h17g326dr1iuz4vf53dsr",
       container: "mapContainer",
-      center: [26.0986, 44.4365],
+      center: [ 23.592297, 46.771315],
       zoom: 12.5,
       constants: null,
     };
