@@ -5,6 +5,10 @@ services:
     command: nginx -g "daemon off;"
     volumes:
       - /srv/patjcj-staging/images:/usr/share/nginx/html/images:rw
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == sys.prforge.com
 
   server:
     env_file:
@@ -14,3 +18,7 @@ services:
     command: "npm start"
     volumes:
       - /srv/patjcj-staging/images:/tmp/images:rw
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == sys.prforge.com
