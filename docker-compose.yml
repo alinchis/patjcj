@@ -12,7 +12,7 @@ networks:
 
 services:
   client:    
-    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-tudor/patjcj}/client:${CI_COMMIT_SHORT_SHA:-latest}"
+    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-banca-mondiala/patjcj}/client:${CI_COMMIT_SHORT_SHA:-latest}"
     ports:
       - "${SERVICE_PORT:-8080}"
     volumes:
@@ -50,7 +50,7 @@ services:
         - traefik.webservice.frontend.entryPoints=https
 
   server:
-    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-tudor/patjcj}/server:${CI_COMMIT_SHORT_SHA:-latest}"
+    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-banca-mondiala/patjcj}/server:${CI_COMMIT_SHORT_SHA:-latest}"
     volumes:
       - ./server:/home/node
       #- ${NGINX_SHARED_FOLDER:-/srv/patjcj-staging}:/home/node/data:z

@@ -13,18 +13,19 @@ export class MonumentsService implements OnModuleInit {
     features: [],
   };
 
-  async onModuleInit () {
+  async onModuleInit() {
 
     try {
-      const path = `${__dirname}/../data/lmi_bucuresti.csv`;
+      const path = `${__dirname}/../data/monuments_cj.csv`;
       if (fs.existsSync(path)) {
-        const monuments = await csv({ delimiter: ';' }).fromFile(path);
+        const monuments = await csv({ delimiter: ',' }).fromFile(path);
 
         this.monuments = monuments;
-        monuments.forEach(m => m.icon_code = m['tip_patrimoniu'].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toUpperCase().replace("PATRIMONIU ", '').replace(/\s+/g, '_'));
+        monuments
+        .forEach(m => m.icon_code = m.tip_patrimoniu.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace('PATRIMONIU ', '').replace(/\s+/g, '_'));
         const includedProps = Object.keys(this.monuments[0]);
 
-        this.geoJSON = GeoJSON.parse(this.monuments.filter( m => m.x && m.y), {Point: ['y', 'x'], include: includedProps});
+        this.geoJSON = GeoJSON.parse(this.monuments.filter(m => m.x && m.y), { Point: ['y', 'x'], include: includedProps });
 
       } else {
         this.logger.debug(`???? ${path}, ${__dirname}`);
@@ -34,27 +35,27 @@ export class MonumentsService implements OnModuleInit {
     }
 
   }
-  findAll (): any {
+  findAll(): any {
     return this.monuments;
   }
 
-  getGeoJSON(): any{
+  getGeoJSON(): any {
     return this.geoJSON;
   }
 
   getMonumentTypes(prop): any {
     const monumentTypes = {};
-    this.geoJSON.features.map( f => {
-      monumentTypes[ f['properties'][prop] ] = monumentTypes[ f['properties'][prop] ] || 0;
-      monumentTypes[ f['properties'][prop] ]++;
+    this.geoJSON.features.map(f => {
+      monumentTypes[f.properties[prop]] = monumentTypes[f.properties[prop]] || 0;
+      monumentTypes[f.properties[prop]]++;
     });
     return monumentTypes;
   }
 
-  async listMonumentImages (monumentPath: string): Promise<string[]> {
+  async listMonumentImages(monumentPath: string): Promise<string[]> {
 
     const safePath = monumentPath.replace(/\.\./gi, '');
-    // console.log(`safePath: ${safePath}`);
+    console.log(`safePath: ${safePath}`);
     const monumentImages = await glob('**', { cwd: `/tmp/images/${safePath}/` });
     return monumentImages || [];
   }

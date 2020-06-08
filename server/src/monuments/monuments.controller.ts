@@ -9,12 +9,12 @@ import {
   Put,
   Logger,
 } from '@nestjs/common';
-import { MonumentsService } from "./monuments.service";
+import { MonumentsService } from './monuments.service';
 
 @Controller()
 export class MonumentsController {
   private readonly logger = new Logger(MonumentsService.name);
-  constructor(private readonly monumentsService: MonumentsService){}
+  constructor(private readonly monumentsService: MonumentsService) {}
   @Get('/api/monuments')
   async findAll(): Promise<any> {
     return this.monumentsService.findAll();
@@ -30,7 +30,7 @@ export class MonumentsController {
   }
   @Get('/api/monument.images')
   async listMonumentImages( @Query('monumentPath') monumentPath): Promise<any> {
-    if(!monumentPath) return [];
+    if (!monumentPath) { return []; }
     return await this.monumentsService.listMonumentImages(monumentPath);
   }
 }

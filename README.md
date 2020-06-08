@@ -1,5 +1,5 @@
 ## Start the project for development
-* `git clone https://gitlab.prforge.com/tudor/patjcj`
+* `git clone https://gitlab.prforge.com/banca-mondiala/patjcj`
 * `cd patjcj`
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml build`
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
