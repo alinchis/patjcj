@@ -3,24 +3,24 @@ version: "3.5"
 networks:
   traefik-public:
     external: true
-  monumap-production:
+  patjcj-production:
     external: false
     driver: overlay
-  monumap-staging:
+  patjcj-staging:
     external: false
     driver: overlay
 
 services:
   client:    
-    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-tudor/monumap}/client:${CI_COMMIT_SHORT_SHA:-latest}"
+    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-tudor/patjcj}/client:${CI_COMMIT_SHORT_SHA:-latest}"
     ports:
       - "${SERVICE_PORT:-8080}"
     volumes:
       - ./client:/data
       # below is a shared folder between the host and the docker containers. we'll put images there - either at dev time, or uploaded through the backend
       # the :z is because https://stackoverflow.com/questions/44139279/docker-mounting-volume-with-permission-denied/44142648#44142648
-      #- ${NGINX_SHARED_FOLDER:-/srv/monumap-staging}/images:/usr/share/nginx/html/images:z
-      #- ${NGINX_SHARED_FOLDER:-/srv/monumap-staging}/images:/data/images:z
+      #- ${NGINX_SHARED_FOLDER:-/srv/patjcj-staging}/images:/usr/share/nginx/html/images:z
+      #- ${NGINX_SHARED_FOLDER:-/srv/patjcj-staging}/images:/data/images:z
       #- shared-volume-staging:/usr/share/nginx/html/images:rw
       - /data/node_modules/
       - /data/dist/
@@ -30,7 +30,7 @@ services:
 
     networks:
       - traefik-public
-      - "monumap-${NETWORK:-staging}"
+      - "patjcj-${NETWORK:-staging}"
     depends_on:
        - server
     restart: unless-stopped
@@ -38,7 +38,7 @@ services:
       update_config:
         order: stop-first
       labels:
-        - traefik.frontend.rule=Host:${EXTERNAL_URL:-monumap-staging.prforge.com}
+        - traefik.frontend.rule=Host:${EXTERNAL_URL:-patjcj-staging.prforge.com}
         - traefik.enable=true
         - traefik.port=${SERVICE_PORT:-8080}
         - traefik.tags=${TRAEFIK_PUBLIC_TAG:-traefik-public}
@@ -50,17 +50,17 @@ services:
         - traefik.webservice.frontend.entryPoints=https
 
   server:
-    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-tudor/monumap}/server:${CI_COMMIT_SHORT_SHA:-latest}"
+    image: "${CI_REGISTRY:-registry.gitlab.prforge.com}/${CI_PROJECT_PATH:-tudor/patjcj}/server:${CI_COMMIT_SHORT_SHA:-latest}"
     volumes:
       - ./server:/home/node
-      #- ${NGINX_SHARED_FOLDER:-/srv/monumap-staging}:/home/node/data:z
+      #- ${NGINX_SHARED_FOLDER:-/srv/patjcj-staging}:/home/node/data:z
       #- shared-volume-staging:/home/node/data:rw
       - /home/node/node_modules/
     restart: unless-stopped
     environment:
       PORT: 8081
     networks:
-      - "monumap-${NETWORK:-staging}"
+      - "patjcj-${NETWORK:-staging}"
     deploy:
       update_config:
         order: stop-first

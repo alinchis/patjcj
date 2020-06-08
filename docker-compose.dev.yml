@@ -3,9 +3,9 @@ version: "3.5"
 networks:
   traefik-public:
     external: true
-  monumap-production:
+  patjcj-production:
     external: false
-  monumap-staging:
+  patjcj-staging:
     external: false
 
 services:

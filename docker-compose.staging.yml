@@ -4,7 +4,7 @@ services:
   client:
     command: nginx -g "daemon off;"
     volumes:
-      - /srv/monumap-staging/images:/usr/share/nginx/html/images:rw
+      - /srv/patjcj-staging/images:/usr/share/nginx/html/images:rw
 
   server:
     env_file:
@@ -13,4 +13,4 @@ services:
       NODE_ENV: staging
     command: "npm start"
     volumes:
-      - /srv/monumap-staging/images:/tmp/images:rw
+      - /srv/patjcj-staging/images:/tmp/images:rw

@@ -3,7 +3,7 @@ version: "3.5"
 services:
   client:
     volumes:
-      - /srv/monumap/images:/usr/share/nginx/html/images:rw
+      - /srv/patjcj/images:/usr/share/nginx/html/images:rw
     deploy:
       restart_policy:
         condition: on-failure
@@ -14,7 +14,7 @@ services:
 
   server:
     volumes:
-      - /srv/monumap/images:/tmp/images:rw
+      - /srv/patjcj/images:/tmp/images:rw
     env_file:
       - ./server/docker/production.env
     environment:

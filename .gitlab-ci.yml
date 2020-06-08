@@ -53,10 +53,10 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
-    - docker stack deploy --with-registry-auth -c docker-compose.yml -c docker-compose.staging.yml monumap-staging
+    - docker stack deploy --with-registry-auth -c docker-compose.yml -c docker-compose.staging.yml patjcj-staging
   variables:
     NODE_ENV: staging
-    EXTERNAL_URL: monumap-staging.prforge.com
+    EXTERNAL_URL: patjcj-staging.prforge.com
     SHARED_VOLUME: shared-volume-staging
     NETWORK: staging
     SERVICE_PORT: 8080
@@ -72,10 +72,10 @@ deploy_prod:
   script:
     - echo "Deploy to production server"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker stack deploy --with-registry-auth -c docker-compose.yml -c docker-compose.production.yml monumap-production
+    - docker stack deploy --with-registry-auth -c docker-compose.yml -c docker-compose.production.yml patjcj-production
   variables:
     NODE_ENV: production
-    EXTERNAL_URL: monumap.prforge.com
+    EXTERNAL_URL: patjcj.prforge.com
     SHARED_VOLUME: shared-volume-staging
     NETWORK: production
     SERVICE_PORT: 8080

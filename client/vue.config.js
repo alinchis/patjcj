@@ -4,7 +4,7 @@ const backendApi = process.env.API_URL
 
 const photosApi = process.env.API_URL
   ? `http://${process.env.API_URL}`
-  : "https://monumap-staging.prforge.com";
+  : "https://patjcj-staging.prforge.com";
 
 module.exports = {
   pluginOptions: {

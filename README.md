@@ -1,6 +1,6 @@
 ## Start the project for development
-* `git clone https://gitlab.prforge.com/tudor/monumap`
-* `cd monumap`
+* `git clone https://gitlab.prforge.com/tudor/patjcj`
+* `cd patjcj`
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml build`
 * `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up`
 
