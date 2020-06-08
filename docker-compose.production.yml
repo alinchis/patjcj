@@ -11,6 +11,10 @@ services:
         max_attempts: 10
         window: 120s
     command: nginx -g "daemon off;"
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == sys.prforge.com
 
   server:
     volumes:
@@ -20,3 +24,7 @@ services:
     environment:
       NODE_ENV: production
     command: "npm start"
+    deploy:
+      placement:
+        constraints:
+          - node.hostname == sys.prforge.com
