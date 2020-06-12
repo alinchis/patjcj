@@ -11,7 +11,7 @@ networks:
 services:
   client:
     volumes:
-      - shared-volume-dev:/data/public/images:rw
+      - /tmp/images:/data/public/images:rw
     command: npm run serve
     build: 
       context: ./client      
@@ -21,7 +21,7 @@ services:
 
   server:
     volumes:
-      - shared-volume-dev:/tmp/images:rw
+      - /tmp/images:/tmp/images:rw
     command: npm run start:dev
 
     build: 
@@ -29,5 +29,3 @@ services:
       target: builder
     env_file:
       - ./server/docker/dev.env 
-volumes:
-  shared-volume-dev:

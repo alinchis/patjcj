@@ -1,3 +1,19 @@
+## Development without docker
+Start the project:
+* `npm run serve` from the `client/` folder 
+* `npm run start:dev` from the `server/` folder
+  
+Mount the remote folders:
+The values for the `uid`/`gid` below are found with command `id <your_user>`
+* mount the remote image folder locally:
+  * `mkdir /tmp/images`
+  * `sshfs -o nosuid,uid=1000,gid=1000 tudor@46.4.123.61:/srv/patjcj/images/ /tmp/images`
+* mount the images folder into the `client/public/images` folder
+  * `mkdir client/public/images`
+  * `sudo mount --bind -o nosuid,uid=1000,gid=1000 /tmp/images client/public/images`
+
+
+
 ## Start the project for development
 * `git clone https://gitlab.prforge.com/banca-mondiala/patjcj`
 * `cd patjcj`
