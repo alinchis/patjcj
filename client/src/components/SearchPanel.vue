@@ -11,7 +11,7 @@
       >
         <q-card>
           <q-card-section class="column bg-grey-4">
-            <div>Lista monumente</div>
+            <a href="/data/monumente_cluj.csv" target="_blank"><div>Lista monumente</div></a>
             <div>Arhiva poze</div>
           </q-card-section>
         </q-card>
