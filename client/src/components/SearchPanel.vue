@@ -126,7 +126,7 @@
                   {{ item["denumire"] }}
                 </q-item-section>
                 <q-item-section avatar>
-                  <q-icon name="fiber_manual_record"/>
+                  <q-icon name="fiber_manual_record" :color="colorCodes[item['icon_code']]"/>
                 </q-item-section>
               </q-item>
             </q-list>
@@ -144,9 +144,6 @@ export default {
 
   data () {
     return {
-      filtruTipPatrimoniu: '',
-      filtruValoareMon: '',
-      filtruScaraMon: '',
       colorCodes: {
         REPREZENTATIV: 'purple-9',
         DOMESTIC_URBAN: 'orange-8',
@@ -170,6 +167,31 @@ export default {
         this.$store.dispatch("monuments/setFilterText", value);
       }
     },
+    filtruTipPatrimoniu: {
+      get (){
+        return this.$store.state.monuments.filtruTipPatrimoniu || "";
+      },
+      set (value) {
+        this.$store.dispatch("monuments/setFiltruTipPatrimoniu", value);
+      }
+    },
+    filtruValoareMon: {
+      get (){
+        return this.$store.state.monuments.filtruValoareMon || "";
+      },
+      set (value) {
+        this.$store.dispatch("monuments/setFiltruValoareMon", value);
+      }
+    },
+    filtruScaraMon: {
+      get (){
+        return this.$store.state.monuments.filtruScaraMon || "";
+      },
+      set (value) {
+        this.$store.dispatch("monuments/setFiltruScaraMon", value);
+      }
+    },
+    
     monFilteredList () {
       return this.$store.getters["monuments/filteredArray"];
     },

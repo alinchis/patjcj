@@ -4,6 +4,10 @@ import constants from '../../util/constants.js';
 const state = {
   items: [],
   geoJSON: {},
+  filtruTipPatrimoniu: '',
+  filtruValoareMon: '',
+  filtruScaraMon: '',
+
   selectedItem: {
     nr: '',
     cod_lmi: '',
@@ -37,25 +41,40 @@ const state = {
 };
 
 const getters = {
-  getMapHeight () {
+  getMapHeight() {
     return document.getElementById('map-enclosure').offsetHeight;
   },
-  getSelectedItem () {
+  getSelectedItem() {
     return state.selectedItem;
   },
   filteredArray: (state) => {
+
     if (!state.geoJSON.features) return [];
-    if (!state.filterText) return state.geoJSON.features.map(f => f.properties);
+
+    if (!(state.filterText || state.filtruTipPatrimoniu || state.filtruValoareMon || state.filtruScaraMon)) return state.geoJSON.features.map(f => f.properties);
+
+    let filteredItems = [...state.items];
+
+    if (state.filtruTipPatrimoniu) {
+      filteredItems = filteredItems.filter(i => i.icon_code === state.filtruTipPatrimoniu);
+    }
+    if (state.filtruValoareMon) {
+      filteredItems = filteredItems.filter(i => i.cod_lmi_val === state.filtruValoareMon);
+    }
+    if (state.filtruScaraMon) {
+      console.log(`==========filtru`, state.filtruScaraMon, filteredItems.length);
+      filteredItems = filteredItems.filter(i => i.cod_lmi_scara === state.filtruScaraMon);
+    }
 
     const needle = state.filterText.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     // return array filtered by the search bar, searching without diacritics
-    return state.items.filter(m =>{
-        for (const field of constants.searchableFields){
-          if (m[field] && m[field].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(needle)) 
+    return filteredItems.filter(m => {
+      for (const field of constants.searchableFields) {
+        if (m[field] && m[field].normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(needle))
           return true;
-        }
-        return false;
       }
+      return false;
+    }
     );
   },
 
@@ -70,7 +89,20 @@ const getters = {
     if (!state.geoJSON.features) {
       return res;
     }
-    const filteredMonuments = getters.filteredArray.map(m => m.cod_lmi);
+
+    let filteredItems = [...getters.filteredArray];
+
+    if (state.filtruTipPatrimoniu) {
+      filteredItems = filteredItems.filter(i => i.icon_code === state.filtruTipPatrimoniu);
+    }
+    if (state.filtruValoareMon) {
+      filteredItems = filteredItems.filter(i => i.cod_lmi_val === state.filtruValoareMon);
+    }
+    if (state.filtruScaraMon) {
+      filteredItems = filteredItems.filter(i => i.cod_lmi_scara === state.filtruScaraMon);
+    }
+
+    const filteredMonuments = filteredItems.map(m => m.cod_lmi);
 
     res.features = state.geoJSON.features.filter(feature => filteredMonuments.indexOf(feature.properties.cod_lmi) > -1);
 
@@ -79,7 +111,7 @@ const getters = {
 };
 
 const actions = {
-  async getAllMonuments ({ commit }) {
+  async getAllMonuments({ commit }) {
 
     const geojson = await fetch("/api/monuments.geojson");
     console.log(JSON.stringify(geojson));
@@ -87,7 +119,7 @@ const actions = {
     commit("setGeoJSON", geojsonMonuments);
     commit("setMonuments", geojsonMonuments.features.map(m => m.properties));
   },
-  async selectItem ({ commit, state }, codLmi) {
+  async selectItem({ commit, state }, codLmi) {
     // if null value
     if (!codLmi) {
       commit("setSelectedItem", undefined);
@@ -116,12 +148,33 @@ const actions = {
     commit("setMonumentDisplay", true);
 
   },
-  setFilterText ({ commit }, text) {
+  setFilterText({ commit }, text) {
     commit('setFilterText', text);
   },
+  setFiltruTipPatrimoniu({ commit, state, dispatch }, val) {
+    if (val && state.selectedItem && state.selectedItem.icon_code !== val){
+      dispatch('selectItem', null);
+    }
+    commit('setFiltruTipPatrimoniu', val);
+  },
+
+  setFiltruValoareMon({ commit, state, dispatch }, val) {
+    if (val && state.selectedItem && state.selectedItem.cod_lmi_val !== val){
+      dispatch('selectItem', null);
+    }
+    commit('setFiltruValoareMon', val);
+  },
+
+  setFiltruScaraMon({ commit, state, dispatch }, val) {
+    if (val && state.selectedItem && state.selectedItem.cod_lmi_scara !== val){
+      dispatch('selectItem', null);
+    }
+    commit('setFiltruScaraMon', val);
+  },
+  
 
   /* eslint-disable no-unused-vars*/
-  mapViewChanged ({ commit, state }) {
+  mapViewChanged({ commit, state }) {
     return;
     // (?)TODO: filter the available markers based on the displayed area
     // commit('setMonuments', state.geoJSON.features.map(i => i.properties));
@@ -131,21 +184,30 @@ const actions = {
 };
 
 const mutations = {
-  setMonuments (state, monuments) {
+  setMonuments(state, monuments) {
     state.items = monuments;
   },
-  setGeoJSON (state, monuments) {
+  setGeoJSON(state, monuments) {
     state.geoJSON = monuments;
   },
-  setSelectedItem (state, item) {
+  setSelectedItem(state, item) {
     state.selectedItem = item;
   },
-  setMonumentDisplay (state, v) {
+  setMonumentDisplay(state, v) {
     state.monumentDisplayed = v;
   },
-  setFilterText (state, v) {
+  setFilterText(state, v) {
     state.filterText = v;
-  }
+  },
+  setFiltruTipPatrimoniu(state, v) {
+    state.filtruTipPatrimoniu = v;
+  },
+  setFiltruValoareMon(state, v) {
+    state.filtruValoareMon = v;
+  },
+  setFiltruScaraMon(state, v) {
+    state.filtruScaraMon = v;
+  },
 };
 export default {
   namespaced: true,

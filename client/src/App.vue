@@ -97,6 +97,8 @@ export default {
     }),
   },
   created: async function () {
+    // open the left panel
+    this.left = true;
     // get monuments list
     await this.$store.dispatch('monuments/getAllMonuments');
 
@@ -105,8 +107,6 @@ export default {
       'photos/getMonumentImages',
       this.$store.state.photos.monumentShown.nr
     );
-    // open the left panel
-    this.left = true;
   },
 };
 </script>
