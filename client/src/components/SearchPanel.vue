@@ -51,8 +51,16 @@
         <q-card>
           <q-card-section class="column bg-grey-4">
             <q-radio keep-color v-model="filtruValoareMon" val="" label="Toate" color="grey-8" />
-            <q-radio keep-color v-model="filtruValoareMon" val="A" label="Nationala" color="teal" />
-            <q-radio keep-color v-model="filtruValoareMon" val="B" label="Locala" color="teal" />
+            <q-radio keep-color v-model="filtruValoareMon" val="A" label="Nationala (A)" color="teal">
+              <q-tooltip>
+                Categoria A - monumente de interes naţional
+              </q-tooltip>
+            </q-radio>
+            <q-radio keep-color v-model="filtruValoareMon" val="B" label="Locala (B)" color="teal">
+              <q-tooltip>
+                Categoria B - monumente de interes local
+              </q-tooltip>
+            </q-radio>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -67,9 +75,9 @@
         <q-card>
           <q-card-section class="column bg-grey-4">
             <q-radio keep-color v-model="filtruScaraMon" val="" label="Toate" color="grey-8" />
-            <q-radio keep-color v-model="filtruScaraMon" val="m" label="Monument" color="teal" />
-            <q-radio keep-color v-model="filtruScaraMon" val="a" label="Ansamblu" color="teal" />
-            <q-radio keep-color v-model="filtruScaraMon" val="s" label="Sit arheologic" color="teal" />
+            <q-radio keep-color v-model="filtruScaraMon" val="m" label="Monument (m)" color="teal" />
+            <q-radio keep-color v-model="filtruScaraMon" val="a" label="Ansamblu (a)" color="teal" />
+            <q-radio keep-color v-model="filtruScaraMon" val="s" label="Sit arheologic (s)" color="teal" />
           </q-card-section>
         </q-card>
       </q-expansion-item>

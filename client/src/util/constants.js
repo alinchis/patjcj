@@ -11,5 +11,5 @@ export default {
     INDUSTRIAL_ENERGETIC: require('../assets/marker_p-industrial-energetic.png'),
     INDUSTRIAL_EXTRACTIV: require('../assets/marker_p-industrial-extractiv.png'),
   },
-  searchableFields: ['denumire', 'adresa', 'cod_lmi', 'tip_monument', 'tip_patrimoniu', 'sector'],
+  searchableFields: ['denumire', 'adresa', 'cod_lmi', 'tip_monument', 'tip_patrimoniu', 'localitate'],
 }
