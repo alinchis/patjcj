@@ -126,7 +126,7 @@
                   {{ item["denumire"] }}
                 </q-item-section>
                 <q-item-section avatar>
-                  <q-icon name="fiber_manual_record"/>
+                  <q-icon name="fiber_manual_record" :color="colorCodes[item['icon_code']]"/>
                 </q-item-section>
               </q-item>
             </q-list>

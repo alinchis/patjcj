@@ -34,6 +34,7 @@ const state = {
   },
   monumentDisplayed: false,
   filterText: '',
+  photoGalleryDialog: false,
 };
 
 const getters = {
@@ -120,6 +121,10 @@ const actions = {
     commit('setFilterText', text);
   },
 
+  togglePhotoGalleryDialog ({ commit }, state) {
+    commit('setPhotoGalleryDialog', state);
+  },
+
   /* eslint-disable no-unused-vars*/
   mapViewChanged ({ commit, state }) {
     return;
@@ -145,7 +150,10 @@ const mutations = {
   },
   setFilterText (state, v) {
     state.filterText = v;
-  }
+  },
+  setPhotoGalleryDialog (state) {
+    state.photoGalleryDialog = !state.photoGalleryDialog;
+  },
 };
 export default {
   namespaced: true,
