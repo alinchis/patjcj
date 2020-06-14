@@ -174,10 +174,13 @@ export default {
     cssVars() {
       //https://www.telerik.com/blogs/passing-variables-to-css-on-a-vue-component
       return {
-        "--height":
+        "--height": this.$q.platform.is.desktop ?
           window.innerHeight -
           document.getElementById("header").offsetHeight +
-          "px",
+          "px" :
+            window.innerHeight -
+            document.getElementById("header-mobile").offsetHeight +
+            "px" ,
         "--width": window.innerWidth + "px",
       };
     },

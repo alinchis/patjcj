@@ -11,8 +11,8 @@
       >
         <q-card>
           <q-card-section class="column bg-grey-4">
-            <a href="/data/monumente_cluj.csv" target="_blank"><div>Lista monumente</div></a>
-            <div>Arhiva poze</div>
+            <q-btn flat no-caps label="Lista monumente [CSV @191KB]" align="between" type="a" href="/data/monumente_cluj.csv" target="_blank"/>
+            <q-btn disable flat no-caps label="Arhiva poze [ZIP @27.1GB]" align="between" type="a" href="/data/monumente_cluj.csv" target="_blank"/>
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -49,10 +49,10 @@
               label="Filtrare Valoare"
       >
         <q-card>
-          <q-card-section class="row bg-grey-4">
+          <q-card-section class="column bg-grey-4">
             <q-radio keep-color v-model="filtruValoareMon" val="" label="Toate" color="grey-8" />
-            <q-radio keep-color v-model="filtruValoareMon" val="A" label="National" color="teal" />
-            <q-radio keep-color v-model="filtruValoareMon" val="B" label="Local" color="teal" />
+            <q-radio keep-color v-model="filtruValoareMon" val="A" label="Nationala" color="teal" />
+            <q-radio keep-color v-model="filtruValoareMon" val="B" label="Locala" color="teal" />
           </q-card-section>
         </q-card>
       </q-expansion-item>

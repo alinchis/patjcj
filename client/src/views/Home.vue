@@ -1,6 +1,6 @@
 <template>
   <q-page class="home column fullscreen justify-evenly">
-    <div class="top-row column items-center">
+    <div class="top-row column items-center" v-if="$q.platform.is.desktop">
       <img
         src="../assets/stema_jud-cluj.png"
         style="max-width: 600px; max-height: 300px;"
@@ -14,6 +14,23 @@
         label="explorează"
         no-caps
         size="lg"
+      />
+    </div>
+
+    <div class="top-row column items-center" v-if="$q.platform.is.mobile">
+      <img
+          src="../assets/stema_jud-cluj.png"
+          style="max-width: 200px; max-height: 180px;"
+      >
+      <h2 class="text-h4 text-blue-grey-10">PATJ Cluj</h2>
+      <q-btn
+          to="lmi"
+          push
+          rounded
+          color="indigo-10"
+          label="explorează"
+          no-caps
+          size="lg"
       />
     </div>
 

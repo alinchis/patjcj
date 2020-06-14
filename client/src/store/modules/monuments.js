@@ -43,7 +43,7 @@ const state = {
 
 const getters = {
   getMapHeight() {
-    return document.getElementById('map-enclosure').offsetHeight;
+    return document.getElementById('map-enclosure').offsetHeight || document.getElementById('map-enclosure-mobile').offsetHeight;
   },
   getSelectedItem() {
     return state.selectedItem;
