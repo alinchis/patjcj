@@ -5,36 +5,32 @@ const state = {
   items: [],
   geoJSON: {},
   selectedItem: {
+    nr: '',
     cod_lmi: '',
-    SIRSUP: '',
-    rang: '',
-    UAT: '',
-    SIRUTA: '',
-    localitate: '',
-    SIRINF: '',
-    sector: '',
-    adresa: '',
-    strada_nume: '',
-    strada_numar: '',
     cod_lmi_jud: '',
     cod_lmi_nat: '',
     cod_lmi_grupa: '',
     cod_lmi_val: '',
     cod_lmi_num: '',
-    tip_patrimoniu: '',
-    program: '',
-    tip_monument: '',
+    SIRUTA_judet: '',
+    judet: '',
+    SIRUTA_UAT: '',
+    rang: '',
+    UAT: '',
+    SIRUTA: '',
+    localitate: '',
     denumire: '',
-    observatii_adresa: '',
-    fotografiat: '',
-    Inexistent: '',
-    constructie_noua: '',
-    stare: '',
+    adresa: '',
+    longitudine_x: '',
+    latitudine_y: '',
+    cota: '',
+    cod_postal: '',
+    tip_patrimoniu: '',
+    program_arhitectura: '',
+    tip_monument: '',
+    stare_generala: '',
     observatii: '',
-    observatii_corina: '',
     datare: '',
-    x: '',
-    y: '',
   },
   monumentDisplayed: false,
   filterText: '',
@@ -86,6 +82,7 @@ const actions = {
   async getAllMonuments ({ commit }) {
 
     const geojson = await fetch("/api/monuments.geojson");
+    console.log(JSON.stringify(geojson));
     const geojsonMonuments = await geojson.json();
     commit("setGeoJSON", geojsonMonuments);
     commit("setMonuments", geojsonMonuments.features.map(m => m.properties));
@@ -104,7 +101,7 @@ const actions = {
     )['properties'];
 
     // request image list
-    const srvImgArrPath = `${fullMonument['SIRSUP']}_${fullMonument['UAT']}/${fullMonument['SIRUTA']}_${fullMonument['localitate']}/${fullMonument['cod_lmi']}`;
+    const srvImgArrPath = `${fullMonument['SIRUTA_UAT']}_${fullMonument['UAT']}/${fullMonument['SIRUTA']}_${fullMonument['localitate']}/${fullMonument['cod_lmi']}`;
     const imgArrReqPath = `/api/monument.images?monumentPath=${srvImgArrPath}`;
     const res = await fetch(imgArrReqPath);
     const imgArr = await res.json();

@@ -14,10 +14,11 @@
       <MglMarker
         v-if="!!selectedItem"
         :coordinates="[
-          selectedItem && selectedItem.x,
-          selectedItem && selectedItem.y,
+          selectedItem && selectedItem.longitudine_x,
+          selectedItem && selectedItem.latitudine_y,
         ]"
       >
+        <img slot="marker" src="../assets/marker_selected.png"/>
       </MglMarker>
     </MglMap>
   </div>
@@ -76,8 +77,8 @@ export default {
     /* eslint-disable-next-line no-unused-vars */
     selectedItem(newValue, oldValue) {
       // re-center map view
-      if (newValue && newValue.x)
-        this.$store.map.flyTo({ center: [newValue.x, newValue.y], zoom: 18 });
+      if (newValue && newValue.longitudine_x)
+        this.$store.map.flyTo({ center: [newValue.longitudine_x, newValue.latitudine_y], zoom: 18 });
     },
   },
   methods: {

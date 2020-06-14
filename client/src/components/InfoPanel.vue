@@ -28,8 +28,8 @@
           <tr>
             <td class="text-left name-column">Coordonate</td>
             <td class="text-left">
-              {{ formatGPSCoord(currentItem["y"]) }},
-              {{ formatGPSCoord(currentItem["x"]) }}
+              {{ formatGPSCoord(currentItem["latitudine_y"]) }},
+              {{ formatGPSCoord(currentItem["longitudine_x"]) }}
             </td>
           </tr>
           <tr>
@@ -84,13 +84,12 @@
         <tbody>
           <tr>
             <td class="text-left name-column">Stare generală</td>
-            <td class="text-left">{{ currentItem["stare"] }}</td>
+            <td class="text-left">{{ currentItem["stare_generala"] }}</td>
           </tr>
           <tr>
             <td class="text-left name-column">Observații</td>
             <td class="text-left">
-              {{ currentItem["observatii"] }}<br />
-              {{ currentItem["observatii_corina"] }}
+              {{ currentItem["observatii"] }}
             </td>
           </tr>
         </tbody>
@@ -115,6 +114,9 @@ export default {
     formatGPSCoord (number) {
       return parseFloat(number).toFixed(6);
     }
+  },
+  components: {
+
   }
 };
 </script>

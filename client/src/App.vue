@@ -10,17 +10,13 @@
       <q-toolbar>
         <q-btn dense flat round icon="menu" @click="left = !left" />
 
-        <q-toolbar-title class="row">
+        <q-toolbar-title class="row items-center">
           <img
             class="q-pr-xs"
-            src="./assets/logo_bucuresti_2050.svg"
-            style="max-width: 600px; max-height: 40px;"
+            src="./assets/stema_jud-cluj.png"
+            style="max-width: 300px; max-height: 30px; padding-left: 30px; padding-right: 20px"
           />
-          <img
-            class="q-pl-xs"
-            src="./assets/logo_bucuresti_2050_text_fara-subtitlu_bicrom_linie.svg"
-            style="max-width: 600px; max-height: 40px;"
-          />
+          <h4 style="margin: 0;">PATJ Cluj</h4>
         </q-toolbar-title>
 
         <q-btn
@@ -39,7 +35,7 @@
       </q-toolbar>
 
       <q-tabs align="left">
-        <q-route-tab to="/lmi" label="LMI" />
+        <q-route-tab to="/lmi" label="LMI 2015" />
         <q-route-tab to="/locuire" label="Locuire" />
       </q-tabs>
     </q-header>

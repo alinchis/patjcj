@@ -25,7 +25,8 @@ export class MonumentsService implements OnModuleInit {
         .forEach(m => m.icon_code = m.tip_patrimoniu.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace('PATRIMONIU ', '').replace(/\s+/g, '_'));
         const includedProps = Object.keys(this.monuments[0]);
 
-        this.geoJSON = GeoJSON.parse(this.monuments.filter(m => m.x && m.y), { Point: ['y', 'x'], include: includedProps });
+        this.geoJSON = GeoJSON.parse(this.monuments.filter(m => m.longitudine_x && m.latitudine_y), { Point: ['latitudine_y', 'longitudine_x'], include: includedProps });
+        // console.log(this.geoJSON);
 
       } else {
         this.logger.debug(`???? ${path}, ${__dirname}`);
