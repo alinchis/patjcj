@@ -196,9 +196,7 @@
                 }),
         },
         methods: {
-            switchTab(tabValue) {
-                console.log(tabValue);
-            },
+
         },
         created: async function () {
             // get monuments list
