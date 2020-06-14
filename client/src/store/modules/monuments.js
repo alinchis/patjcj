@@ -63,7 +63,6 @@ const getters = {
       filteredItems = filteredItems.filter(i => i.cod_lmi_val === state.filtruValoareMon);
     }
     if (state.filtruScaraMon) {
-      console.log(`==========filtru`, state.filtruScaraMon, filteredItems.length);
       filteredItems = filteredItems.filter(i => i.cod_lmi_scara === state.filtruScaraMon);
     }
 
