@@ -1,7 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm">
-    <!--        <vue-picture-swipe :items="items"></vue-picture-swipe>-->
-
+  <div>
     <q-dialog
         v-model="dialog"
         persistent
@@ -22,9 +20,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet
-          porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro
-          labore.
+          <vue-picture-swipe :items="items"></vue-picture-swipe>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -32,32 +28,41 @@
 </template>
 
 <script>
-    import VuePictureSwipe from 'vue-picture-swipe';
+import VuePictureSwipe from 'vue-picture-swipe';
 
-    export default {
-        data() {
-            return {
-                dialog: false,
-                maximizedToggle: true,
-                items: [
-                    {
-                        src: 'http://via.placeholder.com/600x400',
-                        thumbnail: 'http://via.placeholder.com/64x64',
-                        w: 600,
-                        h: 400,
-                        alt: 'some numbers on a grey background' // optional alt attribute for thumbnail image
-                    },
-                    {
-                        src: 'http://via.placeholder.com/1200x900',
-                        thumbnail: 'http://via.placeholder.com/64x64',
-                        w: 1200,
-                        h: 900
-                    }
-                ]
-            };
+export default {
+    data() {
+        return {
+            maximizedToggle: true,
+            items: [
+                {
+                    src: 'http://via.placeholder.com/600x400',
+                    thumbnail: 'http://via.placeholder.com/64x64',
+                    w: 600,
+                    h: 400,
+                    alt: 'some numbers on a grey background' // optional alt attribute for thumbnail image
+                },
+                {
+                    src: 'http://via.placeholder.com/1200x900',
+                    thumbnail: 'http://via.placeholder.com/64x64',
+                    w: 1200,
+                    h: 900
+                }
+            ]
+        };
+    },
+    components: {
+        VuePictureSwipe,
+    },
+    computed: {
+        dialog: {
+            get () {
+                return this.$store.state.monuments.photoGalleryDialog;
+            },
+            set: function () {
+                this.$store.dispatch("monuments/togglePhotoGalleryDialog");
+            }
         },
-        components: {
-            // VuePictureSwipe,
-        }
-    }
+    },
+}
 </script>

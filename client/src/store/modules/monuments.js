@@ -38,6 +38,7 @@ const state = {
   },
   monumentDisplayed: false,
   filterText: '',
+  photoGalleryDialog: false,
 };
 
 const getters = {
@@ -173,6 +174,10 @@ const actions = {
   },
   
 
+  togglePhotoGalleryDialog ({ commit }, state) {
+    commit('setPhotoGalleryDialog', state);
+  },
+
   /* eslint-disable no-unused-vars*/
   mapViewChanged({ commit, state }) {
     return;
@@ -207,6 +212,9 @@ const mutations = {
   },
   setFiltruScaraMon(state, v) {
     state.filtruScaraMon = v;
+  },
+  setPhotoGalleryDialog (state) {
+    state.photoGalleryDialog = !state.photoGalleryDialog;
   },
 };
 export default {
