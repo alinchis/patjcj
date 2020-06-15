@@ -61,11 +61,9 @@
           </q-page-sticky>
         </q-card-section>
 
-        <!--        <q-card-section class="q-pt-none">-->
-        <!--          <nano-gallery2></nano-gallery2>-->
-        <!--        </q-card-section>-->
 
-      </q-card> -->
+
+      </q-card> &ndash;&gt;-->
     </q-dialog>
   </div>
 </template>
