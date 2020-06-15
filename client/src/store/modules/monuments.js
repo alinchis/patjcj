@@ -150,7 +150,7 @@ const actions = {
   },
 
   updateCurrentTab({ commit }, state, value) {
-    console.log(value);
+    // console.log(value);
     commit('setCurrentTab', state, value)
   },
 
