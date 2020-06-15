@@ -9,11 +9,11 @@
     >
       <q-card class="bg-grey-9 text-white">
 
-        <q-card-section class="q-pa-md row items-start q-gutter-md" v-if="$q.platform.is.desktop">
+        <q-card-section class="q-pa-md row items-start q-gutter-md">
           <q-space/>
           <h5>{{this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['cod_lmi'] : ''}}: {{this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['denumire'] : ''}}</h5>
           <q-space/>
-          <q-btn type="button" @click="dialog = false">Close</q-btn>
+          <q-btn round type="button" color="deep-orange" @click="dialog = false" icon="clear"/>
         </q-card-section>
 
       <nano-gallery-2/>
