@@ -8,7 +8,7 @@
         mounted() {
             const $ = window.jQuery;
             const fullPathImageArray = [...this.$store.state.monuments.selectedItem.images].map(imgPath => ({
-                src: imgPath.replace('.jpg', '_thumb.jpg'),
+                src: imgPath,
                 srct: imgPath.replace('.jpg', '_thumb.jpg'),
             }));
             $('#nanogallery2').nanogallery2({
