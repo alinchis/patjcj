@@ -20,6 +20,7 @@
                 thumbnailGutterWidth: 2,
                 thumbnailGutterHeight: 5,
                 thumbnailLabel:   { "display" : false },
+                locationHash: false,
                 // itemsBaseURL: '/',
 
                 // ### gallery content ###
