@@ -97,14 +97,16 @@
             <img
                 class="q-pr-xs"
                 src="./assets/stema_jud-cluj.png"
-                style="max-width: 300px; max-height: 30px; padding-left: 10px; padding-right: 20px"
+                style="max-width: 200px; max-height: 25px; padding-left: 10px; padding-right: 10px"
             />
+            <h5 style="margin: 0;">PATJ Cluj</h5>
           </q-toolbar-title>
+
           <q-tabs align="left">
-            <q-btn-dropdown auto-close stretch flat label="Layere">
+            <q-btn-dropdown auto-close stretch flat label="Layer">
               <q-list>
-                <q-route-tab to="/lmi" label="LMI 2015"/>
-                <q-route-tab to="/locuire" label="Locuire"/>
+                <q-route-tab to="/lmi" label="LMI 2015" @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')" />
+<!--                <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/>-->
               </q-list>
             </q-btn-dropdown>
           </q-tabs>
@@ -137,20 +139,30 @@
         <search-panel></search-panel>
       </q-drawer>
 
+<!--      <q-page-sticky z-max position="bottom-right" :offset="[18, 18]">-->
+<!--        <q-btn fab icon="add" color="accent" />-->
+<!--      </q-page-sticky>-->
+
       <q-drawer
-          v-if="!isHomeRoute"
+          v-if="!isHomeRoute && rightPanel"
           v-model="monumentInfoShown"
           side="right"
           bordered
-          :width="400"
+          :width="$q.screen.width < 640 ? $q.screen.width : 400"
           :content-style="{ backgroundColor: '#bdbdbd' }"
       >
         <!-- drawer content -->
         <info-panel></info-panel>
+        <q-page-sticky position="bottom-right" :offset="[50, 50]" v-if="this.$store.state.monuments.selectedItem">
+          <q-btn fab color="blue-8" icon="o_visibility_off" type="button" @click="rightPanel = !rightPanel"/>
+        </q-page-sticky>
       </q-drawer>
 
       <q-page-container id="map-enclosure-mobile">
         <router-view/>
+        <q-page-sticky position="bottom-right" :offset="[50, 50]" v-if="this.$store.state.monuments.selectedItem">
+          <q-btn fab color="blue-8" icon="o_visibility" type="button" @click="rightPanel = !rightPanel"/>
+        </q-page-sticky>
       </q-page-container>
     </q-layout>
   </div>
@@ -166,6 +178,7 @@
         data() {
             return {
                 left: true,
+                rightPanel: false,
             };
         },
 

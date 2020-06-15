@@ -20,7 +20,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <vue-picture-swipe :items="items"></vue-picture-swipe>
+          <nano-gallery2></nano-gallery2>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -28,31 +28,16 @@
 </template>
 
 <script>
-import VuePictureSwipe from 'vue-picture-swipe';
+import NanoGallery2 from './NanoGallery2';
 
 export default {
     data() {
         return {
-            maximizedToggle: true,
-            items: [
-                {
-                    src: 'http://via.placeholder.com/600x400',
-                    thumbnail: 'http://via.placeholder.com/64x64',
-                    w: 600,
-                    h: 400,
-                    alt: 'some numbers on a grey background' // optional alt attribute for thumbnail image
-                },
-                {
-                    src: 'http://via.placeholder.com/1200x900',
-                    thumbnail: 'http://via.placeholder.com/64x64',
-                    w: 1200,
-                    h: 900
-                }
-            ]
+          maximizedToggle: true,
         };
     },
     components: {
-        VuePictureSwipe,
+        NanoGallery2,
     },
     computed: {
         dialog: {

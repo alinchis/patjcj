@@ -8,34 +8,7 @@ const state = {
   filtruValoareMon: '',
   filtruScaraMon: '',
 
-  selectedItem: {
-    nr: '',
-    cod_lmi: '',
-    cod_lmi_jud: '',
-    cod_lmi_nat: '',
-    cod_lmi_grupa: '',
-    cod_lmi_val: '',
-    cod_lmi_num: '',
-    SIRUTA_judet: '',
-    judet: '',
-    SIRUTA_UAT: '',
-    rang: '',
-    UAT: '',
-    SIRUTA: '',
-    localitate: '',
-    denumire: '',
-    adresa: '',
-    longitudine_x: '',
-    latitudine_y: '',
-    cota: '',
-    cod_postal: '',
-    tip_patrimoniu: '',
-    program_arhitectura: '',
-    tip_monument: '',
-    stare_generala: '',
-    observatii: '',
-    datare: '',
-  },
+  selectedItem: null,
   monumentDisplayed: false,
   filterText: '',
   photoGalleryDialog: false,
@@ -172,8 +145,13 @@ const actions = {
   },
   
 
-  togglePhotoGalleryDialog ({ commit }, state) {
+  togglePhotoGalleryDialog({ commit }, state) {
     commit('setPhotoGalleryDialog', state);
+  },
+
+  updateCurrentTab({ commit }, state, value) {
+    console.log(value);
+    commit('setCurrentTab', state, value)
   },
 
   /* eslint-disable no-unused-vars*/
@@ -211,9 +189,12 @@ const mutations = {
   setFiltruScaraMon(state, v) {
     state.filtruScaraMon = v;
   },
-  setPhotoGalleryDialog (state) {
+  setPhotoGalleryDialog(state) {
     state.photoGalleryDialog = !state.photoGalleryDialog;
   },
+  setCurrentTab(state, value) {
+    state.currentTab = value;
+  }
 };
 export default {
   namespaced: true,
