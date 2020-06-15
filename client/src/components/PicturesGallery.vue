@@ -6,6 +6,7 @@
         :maximized="maximizedToggle"
         transition-show="slide-up"
         transition-hide="slide-down"
+        class="transparent"
     >
       <q-card class="bg-grey-9 text-white">
 
