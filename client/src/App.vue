@@ -103,7 +103,7 @@
           </q-toolbar-title>
 
           <q-tabs align="left">
-            <q-btn-dropdown auto-close stretch flat label="Layer">
+            <q-btn-dropdown auto-close stretch flat label="Harta">
               <q-list>
                 <q-route-tab to="/lmi" label="LMI 2015" @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')" />
 <!--                <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/>-->
