@@ -7,7 +7,8 @@
         transition-show="slide-up"
         transition-hide="slide-down"
     >
-      <q-card class="bg-grey-9 text-white">
+    <nano-gallery-2 />
+      <!-- <q-card class="bg-grey-9 text-white">
 
         <q-card-section class="q-pa-md row items-start q-gutter-md" v-if="$q.platform.is.desktop">
           <q-space/>
@@ -64,13 +65,13 @@
         <!--          <nano-gallery2></nano-gallery2>-->
         <!--        </q-card-section>-->
 
-      </q-card>
+      </q-card> -->
     </q-dialog>
   </div>
 </template>
 
 <script>
-    // import NanoGallery2 from './NanoGallery2';
+    import NanoGallery2 from './NanoGallery2';
 
     export default {
         data() {
@@ -81,7 +82,7 @@
             };
         },
         components: {
-            // NanoGallery2,
+            NanoGallery2,
         },
         computed: {
             dialog: {
