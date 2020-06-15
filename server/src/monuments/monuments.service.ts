@@ -57,7 +57,8 @@ export class MonumentsService implements OnModuleInit {
 
     const safePath = monumentPath.replace(/\.\./gi, '');
     console.log(`safePath: ${safePath}`);
-    const monumentImages = await glob('**', { cwd: `/tmp/images/${safePath}/` });
+    let monumentImages = await glob('**', { cwd: `/tmp/images/${safePath}/` }) || [];
+    monumentImages = monumentImages.filter( i => i.indexOf('_thumb') === -1);
     return monumentImages || [];
   }
 }
