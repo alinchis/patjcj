@@ -213,6 +213,7 @@ export default {
   methods: {
     selectMonument (codLmi) {
       this.$store.dispatch("monuments/selectItem", codLmi);
+      if(this.$q.platform.is.mobile) this.$store.dispatch('monuments/setLeftPanel', false);
     }
   }
 };

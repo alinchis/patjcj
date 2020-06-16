@@ -12,6 +12,8 @@ const state = {
   monumentDisplayed: false,
   filterText: '',
   photoGalleryDialog: false,
+  leftPanel: false,
+  rightPanel: false,
 };
 
 const getters = {
@@ -80,7 +82,15 @@ const getters = {
     res.features = state.geoJSON.features.filter(feature => filteredMonuments.indexOf(feature.properties.cod_lmi) > -1);
 
     return res;
-  }
+  },
+
+  getLeftPanel: (state) => {
+    return state.leftPanel;
+  },
+
+  getRightPanel: (state) => {
+    return state.rightPanel;
+  },
 };
 
 const actions = {
@@ -145,13 +155,33 @@ const actions = {
   },
   
 
-  togglePhotoGalleryDialog({ commit }, state) {
+  togglePhotoGalleryDialog({ commit, state }) {
     commit('setPhotoGalleryDialog', state);
   },
 
-  updateCurrentTab({ commit }, state, value) {
+  updateCurrentTab({ commit, state}, value) {
     // console.log(value);
     commit('setCurrentTab', state, value)
+  },
+
+  clearSlection({ commit, state}) {
+    commit('setSelectedItem', state, null);
+  },
+
+  setLeftPanel({ commit }, value) {
+    commit('setLeftPanel', value);
+  },
+
+  setRightPanel({ commit }, value) {
+    commit('setRightPanel', value);
+  },
+
+  toggleLeftPanel({ commit, state }) {
+    commit('setLeftPanel', !state.leftPanel);
+  },
+
+  toggleRightPanel({ commit, state}) {
+    commit('setRightPanel', !state.rightPanel);
   },
 
   /* eslint-disable no-unused-vars*/
@@ -176,6 +206,7 @@ const mutations = {
   },
   setMonumentDisplay(state, v) {
     state.monumentDisplayed = v;
+    // state.selectedItem = '';
   },
   setFilterText(state, v) {
     state.filterText = v;
@@ -194,8 +225,15 @@ const mutations = {
   },
   setCurrentTab(state, value) {
     state.currentTab = value;
-  }
+  },
+  setLeftPanel(state, value) {
+    state.leftPanel = value;
+  },
+  setRightPanel(state, value) {
+    state.rightPanel = value;
+  },
 };
+
 export default {
   namespaced: true,
   state,

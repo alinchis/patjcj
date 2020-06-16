@@ -15,7 +15,7 @@
           v-if="!isHomeRoute"
       >
         <q-toolbar>
-          <q-btn dense flat round icon="menu" @click="left = !left"/>
+          <q-btn dense flat round icon="menu" @click="toggleLeftPanel"/>
 
           <q-toolbar-title class="row items-center">
             <img
@@ -27,17 +27,14 @@
           </q-toolbar-title>
 
           <q-btn
-              v-if="monumentInfoShown"
+              v-if="monumentInfoShown && $q.platform.is.desktop"
               dense
               flat
               round
               icon="menu"
               @click="
-              $store.commit(
-                'monuments/setMonumentDisplay',
-                !$store.state.monuments.monumentDisplayed
-              )
-            "
+                this.$store.commit('monuments/setMonumentDisplay', !$store.state.monuments.monumentDisplayed);
+                this.$store.dispatch('monuments/clearSelection');"
           />
         </q-toolbar>
 
@@ -50,7 +47,7 @@
       <q-drawer
           v-if="!isHomeRoute"
           :overlay="true"
-          v-model="left"
+          v-model="leftPanel"
           side="left"
           bordered
           :content-style="{ backgroundColor: '#bdbdbd' }"
@@ -90,8 +87,8 @@
           height-hint="98"
           v-if="!isHomeRoute"
       >
-        <q-toolbar>
-          <q-btn dense flat round icon="menu" @click="left = !left"/>
+        <q-toolbar class="transparent">
+          <q-btn dense flat round icon="menu" @click="toggleLeftPanel"/>
 
           <q-toolbar-title class="row items-center">
             <img
@@ -105,32 +102,21 @@
           <q-tabs align="left">
             <q-btn-dropdown auto-close stretch flat label="Harta">
               <q-list>
-                <q-route-tab to="/lmi" label="LMI 2015" @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')" />
-<!--                <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/>-->
+                <q-route-tab to="/lmi" label="LMI 2015"
+                             @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')"/>
+                <!--                <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/>-->
               </q-list>
             </q-btn-dropdown>
           </q-tabs>
 
-          <q-btn
-              v-if="monumentInfoShown"
-              dense
-              flat
-              round
-              icon="menu"
-              @click="
-              $store.commit(
-                'monuments/setMonumentDisplay',
-                !$store.state.monuments.monumentDisplayed
-              )
-            "
-          />
         </q-toolbar>
       </q-header>
 
+      <!-- left drawer -->
       <q-drawer
           v-if="!isHomeRoute"
           :overlay="true"
-          v-model="left"
+          v-model="leftPanel"
           side="left"
           bordered
           :content-style="{ backgroundColor: '#bdbdbd' }"
@@ -139,10 +125,11 @@
         <search-panel></search-panel>
       </q-drawer>
 
-<!--      <q-page-sticky z-max position="bottom-right" :offset="[18, 18]">-->
-<!--        <q-btn fab icon="add" color="accent" />-->
-<!--      </q-page-sticky>-->
+      <!--      <q-page-sticky z-max position="bottom-right" :offset="[18, 18]">-->
+      <!--        <q-btn fab icon="add" color="accent" />-->
+      <!--      </q-page-sticky>-->
 
+      <!-- right drawer -->
       <q-drawer
           v-if="!isHomeRoute && rightPanel"
           v-model="monumentInfoShown"
@@ -154,14 +141,14 @@
         <!-- drawer content -->
         <info-panel></info-panel>
         <q-page-sticky position="bottom-right" :offset="[50, 50]" v-if="this.$store.state.monuments.selectedItem">
-          <q-btn fab color="blue-8" icon="o_visibility_off" type="button" @click="rightPanel = !rightPanel"/>
+          <q-btn fab color="blue-8" icon="o_visibility_off" type="button" @click="toggleRightPanel"/>
         </q-page-sticky>
       </q-drawer>
 
       <q-page-container id="map-enclosure-mobile">
         <router-view/>
         <q-page-sticky position="bottom-right" :offset="[50, 50]" v-if="this.$store.state.monuments.selectedItem">
-          <q-btn fab color="blue-8" icon="o_visibility" type="button" @click="rightPanel = !rightPanel"/>
+          <q-btn fab color="blue-8" icon="o_visibility" type="button" @click="toggleRightPanel"/>
         </q-page-sticky>
       </q-page-container>
     </q-layout>
@@ -177,8 +164,6 @@
     export default {
         data() {
             return {
-                left: true,
-                rightPanel: false,
             };
         },
 
@@ -193,6 +178,23 @@
             isHomeRoute() {
                 return this.$route.name === 'home';
             },
+            leftPanel: {
+                get() {
+                    return this.$store.state.monuments.leftPanel;
+                }
+                ,
+                set: () => {
+                },
+            },
+            rightPanel: {
+                get() {
+                    return this.$store.state.monuments.rightPanel;
+                }
+                ,
+                set: (value) => {
+                    this.$store.dispatch('monuments/setRightPanel', value);
+                },
+            },
             monumentInfoShown: {
                 get() {
                     return (
@@ -205,23 +207,26 @@
                 },
             },
             ...mapState({
-                    monumentDisplayed: (state) => state.monuments.monumentDisplayed,
-                }),
+                monumentDisplayed: (state) => state.monuments.monumentDisplayed,
+            }),
         },
         methods: {
-
+            toggleLeftPanel() {
+                this.$store.dispatch('monuments/toggleLeftPanel');
+            },
+            toggleRightPanel() {
+                this.$store.dispatch('monuments/toggleRightPanel');
+            },
         },
         created: async function () {
             // get monuments list
             await this.$store.dispatch('monuments/getAllMonuments');
 
             // get monuments photos
-            this.$store.dispatch(
-                'photos/getMonumentImages',
-                this.$store.state.photos.monumentShown.nr
-            );
+            this.$store.dispatch('photos/getMonumentImages', this.$store.state.photos.monumentShown.nr);
+
             // open the left panel
-            this.left = this.$q.platform.is.desktop ? true : false;
+            if(this.$q.platform.is.desktop) this.leftPanel = true;
         },
     };
 </script>
