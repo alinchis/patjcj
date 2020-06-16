@@ -84,13 +84,13 @@ const getters = {
     return res;
   },
 
-  getLeftPanel: (state) => {
-    return state.leftPanel;
-  },
-
-  getRightPanel: (state) => {
-    return state.rightPanel;
-  },
+  // getLeftPanel: (state) => {
+  //   return state.leftPanel;
+  // },
+  //
+  // getRightPanel: (state) => {
+  //   return state.rightPanel;
+  // },
 };
 
 const actions = {
@@ -164,11 +164,13 @@ const actions = {
     commit('setCurrentTab', state, value)
   },
 
-  clearSlection({ commit, state}) {
-    commit('setSelectedItem', state, null);
+  clearSelection({ commit }) {
+    // console.log('@store>action: clearSelectedItem');
+    commit('setSelectedItem', null);
   },
 
   setLeftPanel({ commit }, value) {
+    // console.log('store: setLeftPanel: ', value);
     commit('setLeftPanel', value);
   },
 
@@ -201,8 +203,8 @@ const mutations = {
   setGeoJSON(state, monuments) {
     state.geoJSON = monuments;
   },
-  setSelectedItem(state, item) {
-    state.selectedItem = item;
+  setSelectedItem(state, value) {
+    state.selectedItem = value;
   },
   setMonumentDisplay(state, v) {
     state.monumentDisplayed = v;

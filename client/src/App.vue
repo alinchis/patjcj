@@ -6,7 +6,10 @@
         class="aller-font"
         v-if="$q.platform.is.desktop"
     >
+      <!-- photo gallery -->
       <pictures-gallery></pictures-gallery>
+
+      <!-- header -->
       <q-header
           elevated
           id="header"
@@ -15,6 +18,7 @@
           v-if="!isHomeRoute"
       >
         <q-toolbar>
+          <!-- left panel toggle icon -->
           <q-btn dense flat round icon="menu" @click="toggleLeftPanel"/>
 
           <q-toolbar-title class="row items-center">
@@ -26,15 +30,14 @@
             <h4 style="margin: 0;">PATJ Cluj</h4>
           </q-toolbar-title>
 
+          <!-- right panel toggle icon -->
           <q-btn
               v-if="monumentInfoShown && $q.platform.is.desktop"
               dense
               flat
               round
               icon="menu"
-              @click="
-                this.$store.commit('monuments/setMonumentDisplay', !$store.state.monuments.monumentDisplayed);
-                this.$store.dispatch('monuments/clearSelection');"
+              @click="clearSelection"
           />
         </q-toolbar>
 
@@ -73,13 +76,17 @@
       </q-page-container>
     </q-layout>
 
+
     <!-- mobile implementation -->
     <q-layout
         view="hHh lpR fFf"
         class="aller-font"
         v-if="$q.platform.is.mobile"
     >
+      <!-- photo gallery -->
       <pictures-gallery></pictures-gallery>
+
+      <!-- header -->
       <q-header
           elevated
           id="header-mobile"
@@ -87,7 +94,7 @@
           height-hint="98"
           v-if="!isHomeRoute"
       >
-        <q-toolbar class="transparent">
+        <q-toolbar>
           <q-btn dense flat round icon="menu" @click="toggleLeftPanel"/>
 
           <q-toolbar-title class="row items-center">
@@ -104,7 +111,7 @@
               <q-list>
                 <q-route-tab to="/lmi" label="LMI 2015"
                              @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')"/>
-                <!--                <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/>-->
+                <!-- <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/> -->
               </q-list>
             </q-btn-dropdown>
           </q-tabs>
@@ -180,18 +187,23 @@
             },
             leftPanel: {
                 get() {
+                    // console.log('app: getLeftPanel');
                     return this.$store.state.monuments.leftPanel;
                 }
                 ,
-                set: () => {
+                set: function (value) {
+                    // console.log('app: setLeftPanel: ', value);
+                    this.$store.dispatch('monuments/setLeftPanel', value);
                 },
             },
             rightPanel: {
                 get() {
+                    // console.log('app: getRightPanel');
                     return this.$store.state.monuments.rightPanel;
                 }
                 ,
-                set: (value) => {
+                set: function (value) {
+                    // console.log('app: setRightPanel: ', value);
                     this.$store.dispatch('monuments/setRightPanel', value);
                 },
             },
@@ -199,11 +211,14 @@
                 get() {
                     return (
                         this.$store.state.monuments.monumentDisplayed &&
+                        this.$store.state.monuments.selectedItem &&
                         !!this.$store.state.monuments.selectedItem['cod_lmi']
                     );
                 }
                 ,
-                set: () => {
+                set: function (value) {
+                    // console.log('app: setMonumentInfoShown: ', value);
+                    this.$store.dispatch('monuments/setRightPanel', value);
                 },
             },
             ...mapState({
@@ -216,6 +231,10 @@
             },
             toggleRightPanel() {
                 this.$store.dispatch('monuments/toggleRightPanel');
+            },
+            clearSelection: function () {
+                this.toggleRightPanel();
+                this.$store.dispatch('monuments/clearSelection');
             },
         },
         created: async function () {

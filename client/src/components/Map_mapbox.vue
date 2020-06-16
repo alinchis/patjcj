@@ -201,7 +201,7 @@ export default {
           ),
         };
 
-        this.$store.map.getSource(mt).setData(geoJSONByMonumentType);
+          if (!this.$store.map) this.$store.map.getSource(mt).setData(geoJSONByMonumentType);
       }
     },
   },
