@@ -6,7 +6,7 @@
     <q-card class="my-card">
       <q-img
           :src="currentItem.images[0] ? currentItem.images[0].replace('.jpg', '_thumb.jpg') : require('../assets/no-image.png')"
-          :alt="currentItem.cod_lmi"
+          :alt="currentItem['cod_lmi']"
           @click="openPhotoGalleryDialog"
           basic
           class="cursor-pointer"

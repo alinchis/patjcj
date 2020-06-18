@@ -1,17 +1,37 @@
 <template>
   <!-- ### position of the gallery ### -->
-  <div id="nanogallery2" data-nanogallery2></div>
+  <div :id="galleryId" data-nanogallery2></div>
 </template>
 
 <script>
     export default {
+        props: ['galleryId', 'sectionsArray'],
         mounted() {
             const $ = window.jQuery;
-            const fullPathImageArray = [...this.$store.state.monuments.selectedItem.images].map(imgPath => ({
-                src: imgPath,
-                srct: imgPath.replace('.jpg', '_thumb.jpg'),
-            }));
-            $('#nanogallery2').nanogallery2({
+            const albumImageArray = [];
+
+            // populate albumImageArray
+            this.sectionsArray.forEach((section, albumIndex) => {
+                albumImageArray.push({
+                    src: section.images[0].replace('.jpg', '_thumb.jpg'),
+                    title: section.title,
+                    description: 'test',
+                    ID: albumIndex + 1,
+                    kind: 'album'
+                });
+                section.images.forEach((item, itemIndex) => {
+                    albumImageArray.push({
+                        src: item,
+                        srct: item.replace('.jpg', '_thumb.jpg'),
+                        ID: (albumIndex + 1) * 1000 + itemIndex + 1,
+                        albumID: albumIndex + 1,
+                    })
+                });
+            });
+
+            // console.log(albumImageArray);
+
+            $(`#${this.galleryId}`).nanogallery2({
                 // ### gallery settings ###
                 thumbnailHeight: 150,
                 thumbnailWidth: "auto",
@@ -19,17 +39,25 @@
                 thumbnailBorderVertical: 0,
                 thumbnailGutterWidth: 2,
                 thumbnailGutterHeight: 5,
-                thumbnailLabel:   { "display" : false },
+                thumbnailLabel: {"display": true},
                 locationHash: false,
                 // itemsBaseURL: '/',
 
                 // ### gallery content ###
-                items: fullPathImageArray,
+                items: albumImageArray,
+                galleryMaxRows: 20,
+                galleryMaxItems: 1000,
+                galleryDisplayMode: 'pagination',
             });
         },
 
         data() {
             return {};
+        },
+
+        beforeDestroy() {
+            console.log(`#${this.galleryId} destroyed`);
+            window.jQuery(`#${this.galleryId}`).nanogallery2('destroy');
         },
     };
 </script>
