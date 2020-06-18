@@ -56,7 +56,7 @@
         },
 
         beforeDestroy() {
-            console.log(`#${this.galleryId} destroyed`);
+            // console.log(`#${this.galleryId} destroyed`);
             window.jQuery(`#${this.galleryId}`).nanogallery2('destroy');
         },
     };
