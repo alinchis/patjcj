@@ -55,7 +55,7 @@ module.exports = (inPath, outPath, monArr) => {
                 const fileIndex = imagesList.indexOf(matchedFileNames[i]);
                 if (fileIndex > -1) {
                     imagesList.splice(fileIndex, 1);
-                };
+                }
 
                 // fs read file creation date
                 // const stats = fs.statSync(`${inPath}/${matchedFileNames[i]}`);
