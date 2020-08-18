@@ -16,7 +16,7 @@ export class MonumentsService implements OnModuleInit {
     async onModuleInit() {
 
         try {
-            const path = `${__dirname}/../data/monuments_cj.csv`;
+            const path = `${__dirname}/../data/monumente_cluj.csv`;
             if (fs.existsSync(path)) {
                 const monuments = await csv({delimiter: ','}).fromFile(path);
 
