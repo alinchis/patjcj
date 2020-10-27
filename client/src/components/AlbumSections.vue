@@ -146,9 +146,6 @@ export default {
   },
 
   methods: {
-    logStuff: function () {
-      console.log('ESC\n');
-    },
 
     openNext: function (selectedSection) {
       // console.log('@AlbumSections.vue :: @openNext >> selected section: ', selectedSection);
