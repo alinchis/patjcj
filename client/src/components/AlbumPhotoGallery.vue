@@ -9,8 +9,8 @@
         class="transparent"
     >
 
-      <!--  WRAPPER ITEM   -->
-      <q-layout class="bg-grey-9 text-white" view="lHr LpR lfr">
+      <!--  DESKTOP - WRAPPER ITEM   -->
+      <q-layout v-if="$q.platform.is.desktop" class="bg-grey-9 text-white" view="lHr LpR lfr">
         <!-- HEADER -->
         <q-header reveal class="bg-transparent row justify-center">
           <div class="bg-transparent no-border q-ma-md gt-sm">
@@ -42,7 +42,7 @@
                 size="18px"
                 color="deep-orange"
                 @click="apDialog = false"
-                icon="arrow-back"
+                icon="arrow_back"
                 class="q-ma-none"
                 v-if="$q.screen.width < 1024"
             />
@@ -66,12 +66,73 @@
             class="bg-transparent fit"
             style="min-width: 360px;"
         >
-
           <Carousel></Carousel>
-
         </q-page-container>
-
       </q-layout>
+      <!--  DESKTOP - WRAPPER ITEM   -->
+
+
+      <!--  MOBILE - WRAPPER ITEM   -->
+      <q-layout v-if="$q.platform.is.mobile" class="bg-grey-9 text-white" view="lHr LpR lfr">
+        <!-- HEADER -->
+        <q-header reveal class="bg-transparent row justify-center">
+          <div class="bg-transparent no-border q-ma-md gt-sm">
+            <div style="width: 54px; height: 54px"></div>
+          </div>
+
+          <q-btn-group rounded class="q-ma-md header-btn-group">
+            <q-btn
+                color="grey"
+                rounded
+                no-caps
+                :ripple="false"
+                class="text-h7"
+                @click="apDialog = false"
+                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
+            />
+            <q-btn
+
+                color="amber-14"
+                rounded
+                no-caps
+                :ripple="false"
+                class="text-h7 no-pointer-events"
+                :label="currentAlbumSection.title"
+            />
+            <q-btn
+                round
+                type="button"
+                size="18px"
+                color="deep-orange"
+                @click="apDialog = false"
+                icon="arrow_back"
+                class="q-ma-none"
+                v-if="$q.screen.width < 1024"
+            />
+          </q-btn-group>
+
+          <div class="bg-transparent no-border gt-sm">
+            <q-btn
+                round
+                type="button"
+                size="18px"
+                color="deep-orange"
+                @click="apDialog = false"
+                icon="arrow_back"
+                class="q-ma-md"
+            />
+          </div>
+        </q-header>
+
+        <!-- PAGE -->
+        <q-page-container
+            class="bg-transparent fit"
+            style="min-width: 360px;"
+        >
+          <Carousel></Carousel>
+        </q-page-container>
+      </q-layout>
+      <!--  MOBILE - WRAPPER ITEM   -->
 
     </q-dialog>
   </div>

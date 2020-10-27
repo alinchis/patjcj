@@ -8,11 +8,11 @@
         transition-hide="slide-down"
         class="transparent"
     >
-      <!--  WRAPPER ITEM   -->
-      <q-layout class="bg-grey-9 text-white hide-scrollbar" view="lHr LpR lfr">
+      <!--  DESKTOP - WRAPPER ITEM   -->
+      <q-layout v-if="$q.platform.is.desktop" class="bg-grey-9 text-white hide-scrollbar" view="lHr LpR lfr">
         <!-- HEADER -->
         <q-header reveal class="bg-transparent row justify-center">
-          <div v-if="$q.platform.is.desktop" class="bg-transparent no-border q-ma-md gt-sm">
+          <div class="bg-transparent no-border q-ma-md gt-sm">
             <div style="width: 54px; height: 54px"></div>
           </div>
 
@@ -100,8 +100,102 @@
             </q-responsive>
           </div>
         </q-page-container>
-
       </q-layout>
+      <!--  DESKTOP - WRAPPER ITEM   -->
+
+      <!--  MOBILE - WRAPPER ITEM   -->
+      <q-layout v-if="$q.platform.is.mobile" class="bg-grey-9 text-white hide-scrollbar" view="lHr LpR lfr">
+        <!-- HEADER -->
+        <q-header reveal class="bg-transparent row justify-center">
+          <div class="bg-transparent no-border q-ma-sm gt-sm">
+            <div style="width: 54px; height: 54px"></div>
+          </div>
+
+          <q-btn-group rounded class="q-ma-md header-btn-group">
+            <q-btn
+                color="grey"
+                rounded
+                no-caps
+                :ripple="false"
+                class="text-h7 no-pointer-events"
+                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['cod_lmi'] : ''"
+            />
+            <q-btn
+                color="amber-14"
+                rounded
+                no-caps
+                :ripple="false"
+                class="text-h7 no-pointer-events"
+                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['denumire'] : ''"
+            />
+            <q-btn
+                round
+                type="button"
+                size="18px"
+                color="deep-orange"
+                @click="dialog = false"
+                icon="clear"
+                class="q-ma-none"
+                v-if="$q.screen.width < 1024"
+            />
+          </q-btn-group>
+
+          <div class="bg-transparent no-border gt-sm">
+            <q-btn
+                round
+                type="button"
+                size="18px"
+                color="deep-orange"
+                @click="dialog = false"
+                icon="clear"
+                class="q-ma-md"
+            />
+          </div>
+        </q-header>
+
+        <!-- PAGE -->
+        <q-page-container class="q-gutter-md q-ma-sm q-mt-sm bg-transparent"
+                          style="min-width: 360px">
+          <div
+              v-for="(album) in photoAlbums"
+              :key="album.date"
+              class="q-pa-xs q-ma-none row items-start q-gutter-md justify-center"
+          >
+            <q-responsive :ratio="16/9" class="col q-ma-none" style="max-height: 150px; max-width: 500px">
+              <q-card
+                  v-ripple
+                  class="column cursor-pointer"
+                  :ratio="16/9"
+                  @click="openNext(album.date)"
+
+              >
+                <q-img
+                    :src="album.sections[0].thumbnails[0]"
+                    class="col"
+                >
+                </q-img>
+                <div
+                    class="text-h6 absolute-bottom text-center q-pa-sm"
+                    style="background-color: rgba(0,0,0, 0.5)"
+                >
+                  {{ album.date }}
+                </div>
+                <q-btn
+                    rounded
+                    color="blue"
+                    icon="photo_camera"
+                    class="absolute no-pointer-events"
+                    style="top: 30px; right: 12px; transform: translateY(-50%);"
+                    :label="album.photoCount"
+                    :ripple="false"
+                />
+              </q-card>
+            </q-responsive>
+          </div>
+        </q-page-container>
+      </q-layout>
+      <!--  MOBILE - WRAPPER ITEM   -->
+
     </q-dialog>
   </div>
 </template>
@@ -114,8 +208,6 @@ export default {
   data() {
     return {
       maximizedToggle: true,
-      slide: 1,
-      carousel: false,
     };
   },
 
@@ -172,8 +264,10 @@ export default {
 }
 </script>
 
+
 <style lang="sass" scoped>
 
 .header-btn-group
   max-width: 80%
+
 </style>

@@ -1,7 +1,8 @@
 <template>
   <div class="fit column wrap content-center">
 
-    <div style="background-color: darkolivegreen; padding-bottom: 220px" class="fit column justify-center">
+    <!--  DESKTOP - WRAPPER ITEM   -->
+    <div v-if="$q.platform.is.desktop" style="background-color: darkolivegreen; padding-bottom: 220px" class="fit column justify-center">
       <q-carousel
           swipeable
           animated
@@ -35,6 +36,7 @@
     </div>
 
     <div
+        v-if="$q.platform.is.desktop"
         style="height: 220px; width: 100%;"
         class="bg-grey-10 fixed-bottom q-pa-sm q-pl-lg q-pr-lg"
     >
@@ -96,10 +98,93 @@
         />
       </div>
     </div>
+    <!--  DESKTOP - WRAPPER ITEM   -->
 
+
+    <!--  MOBILE - WRAPPER ITEM   -->
+    <div v-if="$q.platform.is.mobile" class="orientation-portrait fit column justify-center" style="background-color: darkolivegreen; padding-bottom: 170px">
+      <q-carousel
+          swipeable
+          animated
+          v-model="virtualListIndex"
+          infinite
+          arrows
+          :fullscreen.sync="fullscreen"
+          class="fit"
+      >
+        <q-carousel-slide
+            v-for="(item, index) in currentAlbumSection.images"
+            :key="index"
+            :name="index"
+            :img-src="item"
+        />
+
+        <template v-slot:control>
+          <q-carousel-control
+              position="top-right"
+              :offset="[18, 18]"
+          >
+            <q-btn
+                push round dense color="blue-9" text-color="primary"
+                size="lg"
+                :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                @click="fullscreen = !fullscreen"
+            />
+          </q-carousel-control>
+        </template>
+      </q-carousel>
+    </div>
+
+    <div
+        v-if="$q.platform.is.mobile"
+        style="height: 170px; width: 100%;"
+        class="bg-grey-10 fixed-bottom q-pa-sm"
+    >
+      <q-virtual-scroll
+          ref="thumbnailsScrollArea"
+          virtual-scroll-horizontal
+          :items="currentAlbumSection.thumbnails"
+          :virtual-scroll-item-size="250"
+          :virtual-scroll-sticky-size-start="48"
+          :virtual-scroll-sticky-size-end="48"
+          class=""
+      >
+        <template v-slot="{ item, index }">
+          <q-responsive
+              :ratio="16/9"
+              style="height: 130px; max-height: 130px; min-width: 130px;"
+              :key="index"
+              class="q-ma-xs cursor-pointer"
+
+          >
+            <q-card
+                :ref="`imgStrip_${index}`"
+                class="img-strip-card column"
+                v-bind:class="[index === virtualListIndex ? 'img-strip-card-selected' : '']"
+                v-ripple
+                @click="imgCardClick($event.target, index)"
+                @mouseenter="$event.target.classList.toggle('dimmed')"
+                @mouseleave="$event.target.classList.toggle('dimmed')"
+            >
+              <q-img
+                  :name="index"
+                  :src="item"
+                  spinner-color="white"
+                  class="col"
+                  style="border: #F2C037"
+              ></q-img>
+            </q-card>
+
+          </q-responsive>
+        </template>
+      </q-virtual-scroll>
+
+    </div>
+    <!--  MOBILE - WRAPPER ITEM   -->
 
   </div>
 </template>
+
 
 <script>
 export default {
