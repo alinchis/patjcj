@@ -42,7 +42,6 @@
           ref="thumbnailsScrollArea"
           virtual-scroll-horizontal
           :items="currentAlbumSection.thumbnails"
-          v-touch-swipe.mouse.right.left="imgStripHandleSwipe"
           :virtual-scroll-item-size="250"
           :virtual-scroll-sticky-size-start="48"
           :virtual-scroll-sticky-size-end="48"
@@ -175,12 +174,12 @@ export default {
     //   console.log('virtualListIndex = ', this.virtualListIndex);
     // },
 
-    imgStripHandleSwipe({evt, ...info}) {
-      this.info = info
-
-      // native Javascript event
-      console.log(evt)
-    },
+    // imgStripHandleSwipe({evt, ...info}) {
+    //   this.info = info
+    //
+    //   // native Javascript event
+    //   // console.log(evt)
+    // },
 
   },
 
