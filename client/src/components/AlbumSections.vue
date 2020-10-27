@@ -12,7 +12,7 @@
       <q-layout class="bg-grey-9 text-white hide-scrollbar" view="lHr LpR lfr">
         <!-- HEADER -->
         <q-header reveal class="bg-transparent row justify-center">
-          <div v-if="$q.platform.is.desktop" class="bg-transparent no-border q-ma-md gt-sm">
+          <div class="bg-transparent no-border q-ma-md gt-sm">
             <div style="width: 54px; height: 54px"></div>
           </div>
 
@@ -139,7 +139,8 @@ export default {
     },
 
     currentDateAlbum() {
-      const returnItem = this.$store.state.monuments.selectedItem ? this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections : [];
+      const returnItem = this.$store.state.monuments.selectedItem && this.$store.state.monuments.selectedItem.images.length > 0 ?
+          this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections : [];
       // console.log('@Carousel.vue :: @currentAlbumSection >> ', returnItem);
       return returnItem;
     },

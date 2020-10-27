@@ -13,7 +13,7 @@
       <q-layout class="bg-grey-9 text-white" view="lHr LpR lfr">
         <!-- HEADER -->
         <q-header reveal class="bg-transparent row justify-center">
-          <div v-if="$q.platform.is.desktop" class="bg-transparent no-border q-ma-md gt-sm">
+          <div class="bg-transparent no-border q-ma-md gt-sm">
             <div style="width: 54px; height: 54px"></div>
           </div>
 
@@ -63,7 +63,6 @@
 
         <!-- PAGE -->
         <q-page-container
-            v-if="$q.platform.is.desktop"
             class="bg-transparent fit"
             style="min-width: 360px;"
         >
@@ -113,7 +112,7 @@ export default {
     },
 
     currentAlbumSection() {
-      const returnItem = this.$store.state.monuments.selectedItem ? this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections[this.$store.state.monuments.selectedItem.albumSectionIndex] : [];
+      const returnItem = this.$store.state.monuments.selectedItem && this.$store.state.monuments.selectedItem.images.length > 0 ? this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections[this.$store.state.monuments.selectedItem.albumSectionIndex] : [];
       // console.log('@AlbumPhotoGallery :: @currentAlbumSection >> ', returnItem);
       return returnItem;
     },

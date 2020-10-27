@@ -59,7 +59,7 @@
         </q-header>
 
         <!-- PAGE -->
-        <q-page-container v-if="$q.platform.is.desktop" class="q-gutter-md q-ma-xl bg-transparent"
+        <q-page-container class="q-gutter-md q-ma-xl bg-transparent"
                           style="min-width: 360px">
           <div
               v-for="(album) in photoAlbums"
@@ -93,7 +93,7 @@
                     icon="photo_camera"
                     class="absolute no-pointer-events"
                     style="top: 30px; right: 12px; transform: translateY(-50%);"
-                    :label="album.sections[0].images.length"
+                    :label="album.photoCount"
                     :ripple="false"
                 />
               </q-card>

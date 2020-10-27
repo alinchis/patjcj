@@ -178,7 +178,7 @@ const actions = {
         const photoAlbumsArr = await albRes.json();
 
         // save full path images to array
-        const fullPathImageArray = imgArr.map(photoName => `/images/${srvImgArrPath}/${photoName}`);
+        const fullPathImageArray = imgArr.map(photoName => `/images/${srvImgArrPath}/${encodeURIComponent(photoName)}`);
 
         // save full path photo albums
         const fullPathPhotoAlbums = photoAlbumsArr.map((album) => {
@@ -187,17 +187,11 @@ const actions = {
                 sections: album.sections.map((photoName) => {
                     return {
                         title: photoName.title,
-                        images: photoName.images.map(item => `/images/${srvImgArrPath}/${item}`),
-                        thumbnails: photoName.images.map(item => `/images/${srvImgArrPath}/${item.replace('.jpg', '_thumb.jpg')}`),
-                        nanoGallery2Items: photoName.images.map((item) => {
-                            return {
-                                src: `/images/${srvImgArrPath}/${item}`,
-                                srct: `/images/${srvImgArrPath}/${item}`.replace('.jpg', '_thumb.jpg'),
-                                title: item,
-                            };
-                        }),
+                        images: photoName.images.map(item => `/images/${srvImgArrPath}/${encodeURIComponent(item)}`),
+                        thumbnails: photoName.images.map(item => `/images/${srvImgArrPath}/${encodeURIComponent(item.replace('.jpg', '_thumb.jpg'))}`),
                     };
-                })
+                }),
+                photoCount: album.sections.reduce((acc, section) => acc + section.images.length, 0)
             };
         });
 
