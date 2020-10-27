@@ -3,13 +3,14 @@
       v-if="!!currentItem && currentItem['cod_lmi']"
       class="q-pa-md q-gutter-md bg-grey-5"
   >
-    <q-card class="my-card">
+    <q-card v-ripple>
       <q-img
           :src="currentItem.images[0] ? currentItem.images[0].replace('.jpg', '_thumb.jpg') : require('../assets/no-image.png')"
           :alt="currentItem['cod_lmi']"
-          @click="openPhotoGalleryDialog"
+          @click="openPhotoDatesDialog"
           basic
           class="cursor-pointer"
+          img-class="image-class"
       >
         <div class="
         absolute-bottom
@@ -17,6 +18,15 @@
         text-left">
           {{ currentItem["cod_lmi"] }}: {{ currentItem["denumire"] }}
         </div>
+        <q-btn
+            rounded
+            color="blue"
+            icon="photo_camera"
+            class="absolute no-pointer-events"
+            style="top: 30px; right: 12px; transform: translateY(-50%);"
+            :label="currentItem.images.length"
+            :ripple="false"
+        />
       </q-img>
     </q-card>
 
@@ -101,33 +111,36 @@
 </template>
 
 <script>
-    import {mapState} from "vuex";
+import {mapState} from "vuex";
 
-    export default {
-        name: "InfoBar",
-        computed: {
-            ...mapState({
-                currentItem: state => {
-                    return state.monuments.selectedItem;
-                }
-            })
-        },
-        methods: {
-            formatGPSCoord(number) {
-                return parseFloat(number).toFixed(6);
-            },
-            openPhotoGalleryDialog() {
-                this.$store.dispatch("monuments/togglePhotoGalleryDialog");
-            },
-        },
-        components: {}
-    };
+export default {
+  name: "InfoPanel",
+
+  computed: {
+    ...mapState({
+      currentItem: state => {
+        return state.monuments.selectedItem;
+      }
+    })
+  },
+
+  methods: {
+    formatGPSCoord(number) {
+      return parseFloat(number).toFixed(6);
+    },
+    openPhotoDatesDialog() {
+      if (this.currentItem && this.currentItem.images.length > 0) this.$store.dispatch("monuments/toggleAlbumDatesDialog");
+    },
+  },
+
+  components: {}
+};
 </script>
 
 <style lang="sass" scoped>
-  .name-column
-    width: 20px
+.name-column
+  width: 20px
 
-  q-img
-    image-orientation: from-image
+.image-class
+  image-orientation: from-image
 </style>

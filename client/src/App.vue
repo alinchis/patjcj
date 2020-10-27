@@ -7,7 +7,9 @@
         v-if="$q.platform.is.desktop"
     >
       <!-- photo gallery -->
-      <pictures-gallery></pictures-gallery>
+      <album-dates></album-dates>
+      <album-sections></album-sections>
+      <album-photo-gallery></album-photo-gallery>
 
       <!-- header -->
       <q-header
@@ -84,7 +86,9 @@
         v-if="$q.platform.is.mobile"
     >
       <!-- photo gallery -->
-      <pictures-gallery></pictures-gallery>
+      <album-dates></album-dates>
+      <album-sections></album-sections>
+      <album-photo-gallery></album-photo-gallery>
 
       <!-- header -->
       <q-header
@@ -109,8 +113,11 @@
           <q-tabs align="left">
             <q-btn-dropdown auto-close stretch flat label="Harta">
               <q-list>
-                <q-route-tab to="/lmi" label="LMI 2015"
-                             @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')"/>
+                <q-route-tab
+                    to="/lmi"
+                    label="LMI 2015"
+                    @click="this.$store.dispatch('monuments/updateCurrentTab', 'LMI 2015')"
+                />
                 <!-- <q-route-tab to="/locuire" label="Locuire" @click="this.$store.dispatch('monuments/updateCurrentTab', 'Locuire')"/> -->
               </q-list>
             </q-btn-dropdown>
@@ -163,94 +170,99 @@
 </template>
 
 <script>
-    import SearchPanel from '@/components/SearchPanel';
-    import InfoPanel from '@/components/InfoPanel';
-    import PicturesGallery from './components/PicturesGallery';
-    import {mapState} from 'vuex';
+import SearchPanel from '@/components/SearchPanel';
+import InfoPanel from '@/components/InfoPanel';
+import AlbumDates from './components/AlbumDates';
+import AlbumSections from './components/AlbumSections';
+import AlbumPhotoGallery from './components/AlbumPhotoGallery';
+import {mapState} from 'vuex';
 
-    export default {
-        data() {
-            return {
-            };
-        },
+export default {
+  name: "App",
 
-        components: {
-            SearchPanel,
-            InfoPanel,
-            PicturesGallery,
-        }
-        ,
-        computed: {
-            // if home route, hide all bars and panels
-            isHomeRoute() {
-                return this.$route.name === 'home';
-            },
-            leftPanel: {
-                get() {
-                    // console.log('app: getLeftPanel');
-                    return this.$store.state.monuments.leftPanel;
-                }
-                ,
-                set: function (value) {
-                    // console.log('app: setLeftPanel: ', value);
-                    this.$store.dispatch('monuments/setLeftPanel', value);
-                },
-            },
-            rightPanel: {
-                get() {
-                    // console.log('app: getRightPanel');
-                    return this.$store.state.monuments.rightPanel;
-                }
-                ,
-                set: function (value) {
-                    // console.log('app: setRightPanel: ', value);
-                    this.$store.dispatch('monuments/setRightPanel', value);
-                },
-            },
-            monumentInfoShown: {
-                get() {
-                    return (
-                        this.$store.state.monuments.monumentDisplayed &&
-                        this.$store.state.monuments.selectedItem &&
-                        !!this.$store.state.monuments.selectedItem['cod_lmi']
-                    );
-                }
-                ,
-                set: function (value) {
-                    // console.log('app: setMonumentInfoShown: ', value);
-                    this.$store.dispatch('monuments/setRightPanel', value);
-                },
-            },
-            ...mapState({
-                monumentDisplayed: (state) => state.monuments.monumentDisplayed,
-            }),
-        },
-        methods: {
-            toggleLeftPanel() {
-                this.$store.dispatch('monuments/toggleLeftPanel');
-            },
-            toggleRightPanel() {
-                this.$store.dispatch('monuments/toggleRightPanel');
-            },
-            clearSelection: function () {
-                this.toggleRightPanel();
-                this.$store.dispatch('monuments/clearSelection');
-            },
-        },
-        created: async function () {
-            // get monuments list
-            await this.$store.dispatch('monuments/getAllMonuments');
+  data() {
+    return {};
+  },
 
-            // get monuments photos
-            this.$store.dispatch('photos/getMonumentImages', this.$store.state.photos.monumentShown.nr);
+  components: {
+    SearchPanel,
+    InfoPanel,
+    AlbumDates,
+    AlbumSections,
+    AlbumPhotoGallery,
+  }
+  ,
+  computed: {
+    // if home route, hide all bars and panels
+    isHomeRoute() {
+      return this.$route.name === 'home';
+    },
+    leftPanel: {
+      get() {
+        // console.log('app: getLeftPanel');
+        return this.$store.state.monuments.leftPanel;
+      }
+      ,
+      set: function (value) {
+        // console.log('app: setLeftPanel: ', value);
+        this.$store.dispatch('monuments/setLeftPanel', value);
+      },
+    },
+    rightPanel: {
+      get() {
+        // console.log('app: getRightPanel');
+        return this.$store.state.monuments.rightPanel;
+      }
+      ,
+      set: function (value) {
+        // console.log('app: setRightPanel: ', value);
+        this.$store.dispatch('monuments/setRightPanel', value);
+      },
+    },
+    monumentInfoShown: {
+      get() {
+        return (
+            this.$store.state.monuments.monumentDisplayed &&
+            this.$store.state.monuments.selectedItem &&
+            !!this.$store.state.monuments.selectedItem['cod_lmi']
+        );
+      }
+      ,
+      set: function (value) {
+        // console.log('app: setMonumentInfoShown: ', value);
+        this.$store.dispatch('monuments/setRightPanel', value);
+      },
+    },
+    ...mapState({
+      monumentDisplayed: (state) => state.monuments.monumentDisplayed,
+    }),
+  },
+  methods: {
+    toggleLeftPanel() {
+      this.$store.dispatch('monuments/toggleLeftPanel');
+    },
+    toggleRightPanel() {
+      this.$store.dispatch('monuments/toggleRightPanel');
+    },
+    clearSelection: function () {
+      this.toggleRightPanel();
+      this.$store.dispatch('monuments/clearSelection');
+    },
+  },
+  created: async function () {
+    // get monuments list
+    await this.$store.dispatch('monuments/getAllMonuments');
 
-            // open the left panel
-            if(this.$q.platform.is.desktop) this.leftPanel = true;
-        },
-    };
+    // get monuments photos
+    this.$store.dispatch('photos/getMonumentImages', this.$store.state.photos.monumentShown.nr);
+
+    // open the left panel
+    if (this.$q.platform.is.desktop) this.leftPanel = true;
+  },
+};
 </script>
 
 <style lang="sass" scoped>
-  img
-    padding: 0 60px
+img
+  padding: 0 60px
 </style>

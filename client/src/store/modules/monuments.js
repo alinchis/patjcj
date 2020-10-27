@@ -15,7 +15,9 @@ const state = {
     selectedItem: null,
     monumentDisplayed: false,
     filterText: '',
-    photoGalleryDialog: false,
+    albumPhotoGalleryDialog: false,
+    albumSectionsDialog: false,
+    albumDatesDialog: false,
     leftPanel: false,
     rightPanel: false,
 };
@@ -95,12 +97,37 @@ const getters = {
         return res;
     },
 
-    getSelectedItemPhotoAlbums: () => {
-        if(state.selectedItem) {
-            return state.selectedItem.photoAlbums;
+    getSelectedItemPhotoAlbums() {
+        return state.selectedItem ? state.selectedItem.photoAlbums : [];
+    },
+
+    getSelectedPhotoDate() {
+        // return '2019-10-29';
+        if(state.selectedItem && state.selectedItem.albumDate) {
+            // console.log('@store.monuments :: @getSelectedPhotoDate >> date = ', state.selectedItem.albumDate);
+            return state.selectedItem.albumDate;
         } else {
-            return [];
+            return '';
         }
+    },
+
+    getSelectedDatePhotoAlbum(state) {
+        // console.log('@store.monuments :: @getSelectedDatePhotoAlbum >> selected date: ', state.selectedItem.albumDate);
+        return {
+            date: state.selectedItem.albumDate,
+            album: state.selectedItem.photoAlbums.filter(item => item.date === state.selectedItem.albumDate)[0],
+        };
+
+    },
+
+    getSelectedPhotoAlbum() {
+        const selectedDate = state.selectedItem.albumDate;
+        const selectedSectionIndex = state.selectedItem.albumSectionIndex;
+        const selectedDateArray = state.selectedItem.photoAlbums.filter(item => item.date === selectedDate)[0];
+        const selectedSection = selectedDateArray.sections[selectedSectionIndex];
+
+        // console.log('@store.monuments :: @getSelectedPhotoAlbum: ', selectedSection);
+        return selectedSection;
     },
 
     // getLeftPanel: (state) => {
@@ -161,14 +188,24 @@ const actions = {
                     return {
                         title: photoName.title,
                         images: photoName.images.map(item => `/images/${srvImgArrPath}/${item}`),
-                    }
+                        thumbnails: photoName.images.map(item => `/images/${srvImgArrPath}/${item.replace('.jpg', '_thumb.jpg')}`),
+                        nanoGallery2Items: photoName.images.map((item) => {
+                            return {
+                                src: `/images/${srvImgArrPath}/${item}`,
+                                srct: `/images/${srvImgArrPath}/${item}`.replace('.jpg', '_thumb.jpg'),
+                                title: item,
+                            };
+                        }),
+                    };
                 })
-            }
+            };
         });
 
         // creat images properties
         fullMonument.images = fullPathImageArray;
         fullMonument.photoAlbums = fullPathPhotoAlbums;
+        fullMonument.albumDate = fullPathPhotoAlbums[0] ? fullPathPhotoAlbums[0].date : '';
+        fullMonument.albumSectionIndex = 0;
 
         commit("setSelectedItem", fullMonument);
         commit("setMonumentDisplay", true);
@@ -200,13 +237,33 @@ const actions = {
         commit('setFiltruScaraMon', val);
     },
 
-    togglePhotoGalleryDialog({commit, state}) {
-        commit('setPhotoGalleryDialog', state);
+    toggleAlbumDatesDialog({commit, state}) {
+        commit('setAlbumDatesDialog', state);
+    },
+
+    setAlbumSelectedDate({commit}, value) {
+        // console.log('@store.monuments :: @setAlbumSelectedDate >> new date value:', value);
+        commit('setAlbumDate', value);
+    },
+
+    toggleAlbumSectionsDialog({commit}) {
+        // console.log('@store.monuments :: @toggleAlbumSectionsDialog');
+        commit('setAlbumSectionsDialog');
+    },
+
+    setAlbumSelectedSection({commit}, value) {
+        // console.log('@store.monuments :: @setAlbumSelectedSection >> new section value:', value);
+        commit('setAlbumSection', value);
+    },
+
+    toggleAlbumPhotoGalleryDialog({commit}) {
+        // console.log('@store.monuments :: @toggleAlbumPhotoGalleryDialog');
+        commit('setAlbumPhotoGalleryDialog', state);
     },
 
     updateCurrentTab({commit, state}, value) {
         // console.log(value);
-        commit('setCurrentTab', state, value)
+        commit('setCurrentTab', state, value);
     },
 
     clearSelection({commit}) {
@@ -280,8 +337,25 @@ const mutations = {
         state.filtruScaraMon = v;
     },
 
-    setPhotoGalleryDialog(state) {
-        state.photoGalleryDialog = !state.photoGalleryDialog;
+    setAlbumDatesDialog(state) {
+        state.albumDatesDialog = !state.albumDatesDialog;
+    },
+
+    setAlbumDate(state, value = '') {
+        if(value) state.selectedItem.albumDate = value;
+    },
+
+    setAlbumSectionsDialog(state) {
+        state.albumSectionsDialog = !state.albumSectionsDialog;
+    },
+
+    setAlbumSection(state, value = 0) {
+        state.selectedItem.albumSectionIndex = value;
+    },
+
+    setAlbumPhotoGalleryDialog(state) {
+        state.albumPhotoGalleryDialog = !state.albumPhotoGalleryDialog;
+        // state.albumDatesDialog = !state.albumDatesDialog;
     },
 
     setCurrentTab(state, value) {
