@@ -111,7 +111,7 @@
             <div style="width: 54px; height: 54px"></div>
           </div>
 
-          <q-btn-group rounded class="q-ma-md header-btn-group">
+          <q-btn-group rounded class="q-ma-sm">
             <q-btn
                 color="grey"
                 rounded
@@ -131,7 +131,7 @@
             <q-btn
                 round
                 type="button"
-                size="18px"
+                size="15px"
                 color="deep-orange"
                 @click="dialog = false"
                 icon="clear"
@@ -148,20 +148,20 @@
                 color="deep-orange"
                 @click="dialog = false"
                 icon="clear"
-                class="q-ma-md"
+                class="q-ma-sm"
             />
           </div>
         </q-header>
 
         <!-- PAGE -->
         <q-page-container class="q-gutter-md q-ma-sm q-mt-sm bg-transparent"
-                          style="min-width: 360px">
+                          style="min-width: 300px">
           <div
               v-for="(album) in photoAlbums"
               :key="album.date"
               class="q-pa-xs q-ma-none row items-start q-gutter-md justify-center"
           >
-            <q-responsive :ratio="16/9" class="col q-ma-none" style="max-height: 150px; max-width: 500px">
+            <q-responsive :ratio="16/9" class="col q-ma-none" style="max-height: 150px; max-width: 400px">
               <q-card
                   v-ripple
                   class="column cursor-pointer"

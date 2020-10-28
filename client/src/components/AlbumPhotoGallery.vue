@@ -28,13 +28,12 @@
                 :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
             />
             <q-btn
-
                 color="amber-14"
                 rounded
                 no-caps
                 :ripple="false"
                 class="text-h6 no-pointer-events"
-                :label="currentAlbumSection.title"
+                :label="currentAlbumSection().title"
             />
             <q-btn
                 round
@@ -75,12 +74,30 @@
       <!--  MOBILE - WRAPPER ITEM   -->
       <q-layout v-if="$q.platform.is.mobile" class="bg-grey-9 text-white" view="lHr LpR lfr">
         <!-- HEADER -->
-        <q-header reveal class="bg-transparent row justify-center">
-          <div class="bg-transparent no-border q-ma-md gt-sm">
-            <div style="width: 54px; height: 54px"></div>
+        <div reveal class="bg-transparent row justify-center z-fab" style="position: fixed; top: 5px;">
+          <div v-if="$q.screen.width >= 640" class="bg-transparent no-border">
+            <q-btn
+                round
+                type="button"
+                size="18px"
+                color="deep-orange"
+                @click="apDialog = false"
+                icon="arrow_back"
+                class="q-ma-sm"
+            />
           </div>
 
-          <q-btn-group rounded class="q-ma-md header-btn-group">
+          <q-btn-group rounded class="q-ma-sm header-btn-group">
+            <q-btn
+                round
+                type="button"
+                size="15px"
+                color="deep-orange"
+                @click="apDialog = false"
+                icon="arrow_back"
+                class="q-ma-none"
+                v-if="$q.screen.width < 640"
+            />
             <q-btn
                 color="grey"
                 rounded
@@ -91,43 +108,20 @@
                 :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
             />
             <q-btn
-
                 color="amber-14"
                 rounded
                 no-caps
                 :ripple="false"
                 class="text-h7 no-pointer-events"
-                :label="currentAlbumSection.title"
-            />
-            <q-btn
-                round
-                type="button"
-                size="18px"
-                color="deep-orange"
-                @click="apDialog = false"
-                icon="arrow_back"
-                class="q-ma-none"
-                v-if="$q.screen.width < 1024"
+                :label="currentAlbumSection().title"
             />
           </q-btn-group>
-
-          <div class="bg-transparent no-border gt-sm">
-            <q-btn
-                round
-                type="button"
-                size="18px"
-                color="deep-orange"
-                @click="apDialog = false"
-                icon="arrow_back"
-                class="q-ma-md"
-            />
-          </div>
-        </q-header>
+        </div>
 
         <!-- PAGE -->
         <q-page-container
             class="bg-transparent fit"
-            style="min-width: 360px;"
+            style="min-width: 300px;"
         >
           <Carousel></Carousel>
         </q-page-container>
@@ -139,7 +133,6 @@
 </template>
 
 <script>
-// import NanoGallery2 from './NanoGallery2';
 import Carousel from './Carousel';
 
 export default {
@@ -154,7 +147,6 @@ export default {
   },
 
   components: {
-    // NanoGallery2,
     Carousel,
   },
 
@@ -171,15 +163,14 @@ export default {
     photoAlbums() {
       return this.$store.getters["monuments/getSelectedItemPhotoAlbums"];
     },
+  },
 
+  methods: {
     currentAlbumSection() {
       const returnItem = this.$store.state.monuments.selectedItem && this.$store.state.monuments.selectedItem.images.length > 0 ? this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections[this.$store.state.monuments.selectedItem.albumSectionIndex] : [];
       // console.log('@AlbumPhotoGallery :: @currentAlbumSection >> ', returnItem);
       return returnItem;
     },
-  },
-
-  mounted() {
   },
 }
 </script>

@@ -101,8 +101,8 @@
     <!--  DESKTOP - WRAPPER ITEM   -->
 
 
-    <!--  MOBILE - WRAPPER ITEM   -->
-    <div v-if="$q.platform.is.mobile" class="orientation-portrait fit column justify-center" style="background-color: darkolivegreen; padding-bottom: 170px">
+    <!--  MOBILE + PORTRAIT - WRAPPER ITEM   -->
+    <div v-if="$q.platform.is.mobile" class="orientation-portrait fit column justify-center" style="background-color: darkolivegreen; padding-bottom: 150px">
       <q-carousel
           swipeable
           animated
@@ -121,7 +121,7 @@
 
         <template v-slot:control>
           <q-carousel-control
-              position="top-right"
+              position="bottom-right"
               :offset="[18, 18]"
           >
             <q-btn
@@ -137,14 +137,14 @@
 
     <div
         v-if="$q.platform.is.mobile"
-        style="height: 170px; width: 100%;"
-        class="bg-grey-10 fixed-bottom q-pa-sm"
+        style="height: 150px; width: 100%;"
+        class="orientation-portrait bg-grey-10 fixed-bottom q-pa-sm"
     >
       <q-virtual-scroll
           ref="thumbnailsScrollArea"
           virtual-scroll-horizontal
           :items="currentAlbumSection.thumbnails"
-          :virtual-scroll-item-size="250"
+          :virtual-scroll-item-size="110"
           :virtual-scroll-sticky-size-start="48"
           :virtual-scroll-sticky-size-end="48"
           class=""
@@ -152,7 +152,7 @@
         <template v-slot="{ item, index }">
           <q-responsive
               :ratio="16/9"
-              style="height: 130px; max-height: 130px; min-width: 130px;"
+              style="height: 110px; max-height: 110px; min-width: 110px;"
               :key="index"
               class="q-ma-xs cursor-pointer"
 
@@ -163,8 +163,84 @@
                 v-bind:class="[index === virtualListIndex ? 'img-strip-card-selected' : '']"
                 v-ripple
                 @click="imgCardClick($event.target, index)"
-                @mouseenter="$event.target.classList.toggle('dimmed')"
-                @mouseleave="$event.target.classList.toggle('dimmed')"
+            >
+              <q-img
+                  :name="index"
+                  :src="item"
+                  spinner-color="white"
+                  class="col"
+                  style="border: #F2C037"
+              ></q-img>
+            </q-card>
+
+          </q-responsive>
+        </template>
+      </q-virtual-scroll>
+    </div>
+    <!--  MOBILE + PORTRAIT- WRAPPER ITEM   -->
+
+    <!--  MOBILE + LANDSCAPE - WRAPPER ITEM   -->
+    <div v-if="$q.platform.is.mobile" class="orientation-landscape fit column justify-center" style="background-color: darkolivegreen; padding-bottom: 60px">
+      <q-carousel
+          swipeable
+          animated
+          v-model="virtualListIndex"
+          infinite
+          arrows
+          :fullscreen.sync="fullscreen"
+          class="fit"
+      >
+        <q-carousel-slide
+            v-for="(item, index) in currentAlbumSection.images"
+            :key="index"
+            :name="index"
+            :img-src="item"
+        />
+
+        <template v-slot:control>
+          <q-carousel-control
+              position="bottom-right"
+              :offset="[12, 12]"
+          >
+            <q-btn
+                push round dense color="blue-9" text-color="primary"
+                size="lg"
+                :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+                @click="fullscreen = !fullscreen"
+            />
+          </q-carousel-control>
+        </template>
+      </q-carousel>
+    </div>
+
+    <div
+        v-if="$q.platform.is.mobile"
+        style="height: 65px; width: 100%;"
+        class="orientation-landscape bg-grey-10 fixed-bottom no-padding"
+    >
+      <q-virtual-scroll
+          ref="thumbnailsScrollArea"
+          virtual-scroll-horizontal
+          :items="currentAlbumSection.thumbnails"
+          :virtual-scroll-item-size="110"
+          :virtual-scroll-sticky-size-start="48"
+          :virtual-scroll-sticky-size-end="48"
+          class=""
+      >
+        <template v-slot="{ item, index }">
+          <q-responsive
+              :ratio="16/9"
+              style="height: 50px; max-height: 50px; min-width: 100px;"
+              :key="index"
+              class="q-ma-xs cursor-pointer"
+
+          >
+            <q-card
+                :ref="`imgStrip_${index}`"
+                class="img-strip-card column"
+                v-bind:class="[index === virtualListIndex ? 'img-strip-card-selected' : '']"
+                v-ripple
+                @click="imgCardClick($event.target, index)"
             >
               <q-img
                   :name="index"
@@ -180,7 +256,7 @@
       </q-virtual-scroll>
 
     </div>
-    <!--  MOBILE - WRAPPER ITEM   -->
+    <!--  MOBILE + LANDSCAPE - WRAPPER ITEM   -->
 
   </div>
 </template>
@@ -195,7 +271,6 @@ export default {
       slide: 1,
       fullscreen: false,
       virtualListIndex: 0,
-      previousItem: this.$refs.imgStrip_0,
     }
   },
 
@@ -213,8 +288,12 @@ export default {
       return this.$store.getters["monuments/getSelectedItemPhotoAlbums"];
     },
 
+    currentSectionIndex() {
+      return this.$store.state.monuments.selectedItem.albumSectionIndex;
+    },
+
     currentAlbumSection() {
-      const returnItem = this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections[this.$store.state.monuments.selectedItem.albumSectionIndex];
+      const returnItem = this.photoAlbums.filter(item => item.date === this.$store.state.monuments.selectedItem.albumDate)[0].sections[this.currentSectionIndex];
       // console.log('@Carousel.vue :: @currentAlbumSection >> ', returnItem);
       return returnItem;
     },
@@ -227,7 +306,6 @@ export default {
       // element.classList.add('img-strip-card-selected');
       this.virtualListIndex = cardIndex;
       this.$refs.thumbnailsScrollArea.scrollTo(cardIndex);
-      this.previousItem = element;
     },
 
     virtualScrollUpdatePosition({index}) {
@@ -241,23 +319,11 @@ export default {
       // console.log('virtualListIndex = ', this.virtualListIndex);
     },
 
-    // fullScrollLeft() {
-    //   this.virtualListIndex = this.virtualListIndex > 5 ? this.virtualListIndex - 5 : this.virtualListIndex;
-    //   this.$refs.thumbnailsScrollArea.scrollTo(this.virtualListIndex);
-    //   console.log('virtualListIndex = ', this.virtualListIndex);
-    // },
-
     scrollRight() {
       this.virtualListIndex = this.virtualListIndex < this.currentAlbumSection.thumbnails.length - 1 ? this.virtualListIndex + 1 : this.virtualListIndex;
       this.$refs.thumbnailsScrollArea.scrollTo(this.virtualListIndex);
       // console.log('virtualListIndex = ', this.virtualListIndex);
     },
-
-    // fullScrollRight() {
-    //   this.virtualListIndex = this.virtualListIndex < this.currentAlbumSection.thumbnails.length - 6 ? this.virtualListIndex + 5 : this.virtualListIndex;
-    //   this.$refs.thumbnailsScrollArea.scrollTo(this.virtualListIndex);
-    //   console.log('virtualListIndex = ', this.virtualListIndex);
-    // },
 
     // imgStripHandleSwipe({evt, ...info}) {
     //   this.info = info
