@@ -19,7 +19,7 @@
 
           <q-btn-group rounded class="q-ma-md header-btn-group">
             <q-btn
-                color="grey"
+                color="grey-8"
                 rounded
                 no-caps
                 :ripple="false"
@@ -74,7 +74,7 @@
       <!--  MOBILE - WRAPPER ITEM   -->
       <q-layout v-if="$q.platform.is.mobile" class="bg-grey-9 text-white" view="lHr LpR lfr">
         <!-- HEADER -->
-        <div reveal class="bg-transparent row justify-center z-fab" style="position: fixed; top: 5px;">
+        <div reveal class="bg-transparent row justify-center z-fab" style="position: fixed; top: 0px;">
           <div v-if="$q.screen.width >= 640" class="bg-transparent no-border">
             <q-btn
                 round
@@ -99,7 +99,7 @@
                 v-if="$q.screen.width < 640"
             />
             <q-btn
-                color="grey"
+                color="amber-14"
                 rounded
                 no-caps
                 :ripple="false"
@@ -108,7 +108,7 @@
                 :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
             />
             <q-btn
-                color="amber-14"
+                color="grey-8"
                 rounded
                 no-caps
                 :ripple="false"

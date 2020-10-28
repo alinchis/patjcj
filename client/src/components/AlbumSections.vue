@@ -109,41 +109,7 @@
       <q-layout v-if="$q.platform.is.mobile" class="bg-grey-9 text-white hide-scrollbar" view="lHr LpR lfr">
         <!-- HEADER -->
         <q-header reveal class="bg-transparent row justify-center">
-          <div class="bg-transparent no-border q-ma-sm gt-sm">
-            <div style="width: 54px; height: 54px"></div>
-          </div>
-
-          <q-btn-group rounded class="q-ma-sm header-btn-group">
-            <q-btn
-                color="grey"
-                rounded
-                no-caps
-                :ripple="false"
-                class="text-h7"
-                @click="paDialog = false"
-                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['denumire'] : ''"
-            />
-            <q-btn
-                color="amber"
-                rounded
-                no-caps
-                :ripple="false"
-                class="text-h7 no-pointer-events"
-                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
-            />
-            <q-btn
-                round
-                type="button"
-                size="15px"
-                color="deep-orange"
-                @click="paDialog = false"
-                icon="arrow_back"
-                class="q-ma-none"
-                v-if="$q.screen.width < 1024"
-            />
-          </q-btn-group>
-
-          <div class="bg-transparent no-border gt-sm">
+          <div v-if="$q.screen.width >= 640" class="bg-transparent no-border">
             <q-btn
                 round
                 type="button"
@@ -154,6 +120,41 @@
                 class="q-ma-sm"
             />
           </div>
+
+          <q-btn-group rounded class="q-ma-sm header-btn-group">
+            <q-btn
+                round
+                type="button"
+                size="15px"
+                color="deep-orange"
+                @click="paDialog = false"
+                icon="arrow_back"
+                class="q-ma-none"
+                v-if="$q.screen.width < 640"
+            />
+            <q-btn
+                color="amber-14"
+                rounded
+                no-caps
+                :ripple="false"
+                class="text-h7"
+                @click="paDialog = false"
+                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['denumire'] : ''"
+            />
+            <q-btn
+                color="grey-8"
+                rounded
+                no-caps
+                :ripple="false"
+                class="text-h7 no-pointer-events"
+                :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
+            />
+          </q-btn-group>
+
+          <div v-if="$q.screen.width >= 640" class="bg-transparent no-border q-ma-sm">
+            <div style="width: 54px; height: 54px"></div>
+          </div>
+
         </q-header>
 
         <!-- PAGE -->

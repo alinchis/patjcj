@@ -107,7 +107,7 @@
       <q-layout v-if="$q.platform.is.mobile" class="bg-grey-9 text-white hide-scrollbar" view="lHr LpR lfr">
         <!-- HEADER -->
         <q-header reveal class="bg-transparent row justify-center">
-          <div class="bg-transparent no-border q-ma-sm gt-sm">
+          <div v-if="$q.screen.width >= 640" class="bg-transparent no-border q-ma-sm">
             <div style="width: 54px; height: 54px"></div>
           </div>
 
@@ -136,11 +136,11 @@
                 @click="dialog = false"
                 icon="clear"
                 class="q-ma-none"
-                v-if="$q.screen.width < 1024"
+                v-if="$q.screen.width < 640"
             />
           </q-btn-group>
 
-          <div class="bg-transparent no-border gt-sm">
+          <div v-if="$q.screen.width >= 640" class="bg-transparent no-border">
             <q-btn
                 round
                 type="button"
