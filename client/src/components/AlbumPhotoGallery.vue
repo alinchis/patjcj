@@ -28,6 +28,7 @@
                 :label="this.$store.state.monuments.selectedItem ? this.$store.state.monuments.selectedItem['albumDate'] : ''"
             />
             <q-btn
+                v-if="currentAlbumSection().title !== 'Ansamblu'"
                 color="amber-14"
                 rounded
                 no-caps
