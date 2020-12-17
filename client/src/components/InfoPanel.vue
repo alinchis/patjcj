@@ -1,3 +1,5 @@
+<!-- lmi-2015 :: infoPanel -->
+
 <template>
   <div
       v-if="!!currentItem && currentItem['cod_lmi']"

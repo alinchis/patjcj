@@ -25,18 +25,18 @@
 </template>
 
 <script>
-import { matRoom } from "@quasar/extras/material-icons";
-import "mapbox-gl/dist/mapbox-gl.css";
-import constants from "@/util/constants.js";
+import { matRoom } from '@quasar/extras/material-icons';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import constants from '@/util/constants.js';
 
 import {
   MglMap,
   MglNavigationControl,
   MglGeolocateControl,
   MglMarker,
-} from "vue-mapbox";
+} from 'vue-mapbox';
 
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -64,9 +64,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedItem: "monuments/getSelectedItem",
-      monuments: "monuments/filteredArray",
-      geoJSON: "monuments/filteredGeoJSON",
+      selectedItem: 'monuments/getSelectedItem',
+      monuments: 'monuments/filteredArray',
+      geoJSON: 'monuments/filteredGeoJSON',
     }),
   },
   watch: {
@@ -87,7 +87,7 @@ export default {
       for (const mt in constants.monumentTypes) {
         const img = constants.monumentTypes[mt];
         map.addSource(mt, {
-          type: "geojson",
+          type: 'geojson',
           data: {
             ...this.geoJSON,
             features: this.geoJSON.features.filter(
@@ -98,20 +98,20 @@ export default {
         });
         /* eslint-disable no-unused-vars*/
         map.loadImage(img, function(error, image) {
-          let symbol = "";
+          let symbol = '';
           if (error) {
-            symbol = "music";
+            symbol = 'music';
           } else {
             symbol = mt;
             map.addImage(mt, image);
           }
           map.addLayer({
             id: mt, // layerID,
-            type: "symbol",
+            type: 'symbol',
             source: mt,
             layout: {
-              "icon-image": symbol,
-              "icon-allow-overlap": false,
+              'icon-image': symbol,
+              'icon-allow-overlap': false,
               // "text-field": ['get', 'denumire'],
               //"text-field": ".",
               // "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
@@ -134,36 +134,36 @@ export default {
         });
 
         let hoveredMonumentId = null;
-        map.on("mousemove", mt, e => {
+        map.on('mousemove', mt, (e) => {
           if (e.features && e.features.length > 0) {
             hoveredMonumentId = e.features[0].id;
-            map.getCanvas().style.cursor = "pointer";
+            map.getCanvas().style.cursor = 'pointer';
           }
         });
-        map.on("mouseleave", mt, e => {
+        map.on('mouseleave', mt, (e) => {
           if (hoveredMonumentId) {
             hoveredMonumentId = null;
-            map.getCanvas().style.cursor = "";
+            map.getCanvas().style.cursor = '';
           }
         });
       }
 
       map
-        .on("click", e => {
+        .on('click', (e) => {
           const clickedMonument = (this.$store.map.queryRenderedFeatures(
             e.point
           ) || [])[0];
           if (clickedMonument) {
             this.onMonumentClicked(clickedMonument.properties);
           } else {
-            this.$store.dispatch("monuments/selectItem", null);
+            this.$store.dispatch('monuments/selectItem', null);
           }
         })
-        .on("zoomend", () => {
-          this.$store.dispatch("monuments/mapViewChanged");
+        .on('zoomend', () => {
+          this.$store.dispatch('monuments/mapViewChanged');
         })
-        .on("moveend", () => {
-          this.$store.dispatch("monuments/mapViewChanged");
+        .on('moveend', () => {
+          this.$store.dispatch('monuments/mapViewChanged');
         });
     },
     onMapLoaded(event) {
@@ -186,12 +186,12 @@ export default {
     },
 
     onMonumentClicked(monument) {
-      if (!monument) return this.$store.dispatch("monuments/selectItem", null);
-      this.$store.dispatch("monuments/selectItem", monument["cod_lmi"]);
+      if (!monument) return this.$store.dispatch('monuments/selectItem', null);
+      this.$store.dispatch('monuments/selectItem', monument['cod_lmi']);
     },
     filterMap() {
       if (!this.$store.map) return;
-      const filteredGeoJSON = this.$store.getters["monuments/filteredGeoJSON"];
+      const filteredGeoJSON = this.$store.getters['monuments/filteredGeoJSON'];
 
       for (const mt in constants.monumentTypes) {
         const geoJSONByMonumentType = {

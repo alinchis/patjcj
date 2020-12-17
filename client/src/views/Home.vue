@@ -1,5 +1,7 @@
 <template>
   <q-page class="home column fullscreen justify-evenly">
+
+    <!-- DESKTOP -->
     <div class="top-row column items-center" v-if="$q.platform.is.desktop">
       <img
         src="../assets/stema_jud-cluj.png"
@@ -17,6 +19,8 @@
       />
     </div>
 
+
+    <!-- MOBILE -->
     <div class="top-row column items-center" v-if="$q.platform.is.mobile">
       <img
           src="../assets/stema_jud-cluj.png"

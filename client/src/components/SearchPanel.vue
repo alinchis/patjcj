@@ -12,7 +12,7 @@
         <q-card>
           <q-card-section class="column bg-grey-4">
             <q-btn flat no-caps label="Lista monumente [CSV @191KB]" align="between" type="a" href="/data/monumente_cluj.csv" target="_blank"/>
-            <q-btn disable flat no-caps label="Arhiva poze [JPG @27.1GB]" align="between" type="a" href="/data/monumente_cluj.csv" target="_blank"/>
+            <q-btn flat no-caps label="Arhiva poze [JPG @17.7GB]" align="between" type="a" href="https://192.168.1.23/share.cgi?ssid=03TTQ2u" target="_blank"/>
           </q-card-section>
         </q-card>
       </q-expansion-item>

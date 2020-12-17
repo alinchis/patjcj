@@ -8,6 +8,7 @@ import * as glob from 'glob-promise';
 export class MonumentsService implements OnModuleInit {
     private readonly logger = new Logger(MonumentsService.name);
     private monuments = [];
+    private polygonsGeoJSON = {};
     private geoJSON = {
         type: '',
         features: [],
@@ -20,6 +21,65 @@ export class MonumentsService implements OnModuleInit {
             if (fs.existsSync(path)) {
                 const monuments = await csv({delimiter: ','}).fromFile(path);
 
+                const poly = {
+                    type: 'FeatureCollection',
+                    features: [
+                        {
+                            type: 'Feature',
+                            geometry: {
+                                coordinates: [
+                                    [
+                                        [26.08598705027825, 44.43048833459946],
+                                        [26.085110016697172, 44.42500804090048],
+                                        [26.09066456270895, 44.424486081369565],
+                                        [26.091322337893843, 44.43007080649548],
+                                        [26.08598705027825, 44.43048833459946],
+                                    ],
+                                ],
+                                type: 'Polygon',
+                            },
+                            properties: {
+                                nr: '0',
+                                cod_lmi: 'B-II-m-B-1792900',
+                                cod_lmi_jud: 'B',
+                                cod_lmi_nat: 'II',
+                                cod_lmi_grupa: 'm',
+                                cod_lmi_val: 'B',
+                                cod_lmi_num: '17929',
+                                SIRUTA_judet: '403',
+                                judet: 'BUCUREȘTI',
+                                SIRUTA_UAT: '179132',
+                                rang: 'municipiu',
+                                UAT: 'BUCUREȘTI',
+                                SIRUTA: '179178',
+                                localitate: 'Sector 4',
+                                denumire: 'Casă Nifon Mitropolitul',
+                                latitudine_y: '44.424931110043',
+                                longitudine_x: '26.0950825395198',
+                                cota: '125',
+                                adresa: 'Str. 11 Iunie 2 sector 4',
+                                observatii_adresa: '',
+                                cod_postal: '123456',
+                                strada_nume: 'Str. 11 iunie',
+                                strada_numar: '2',
+                                tip_patrimoniu: 'Patrimoniu domestic urban',
+                                program_arhitectura: 'Clădire de locuit (unifamilială, colectivă ș.a.)',
+                                tip_monument: 'Locuire civilă',
+                                datare: 'sf. sec. XIX',
+                                fotografiat: 'DA',
+                                existent: 'DA',
+                                constructie_noua: 'NU',
+                                stare_generala: 'DEGRADAT',
+                                observatii: '.',
+                                observatii_cc: 'a fost adăugat ulterior în baza de date',
+                                icon_code: 'DOMESTIC_URBAN',
+                            },
+                        },
+                    ],
+                };
+
+                this.polygonsGeoJSON = poly;
+
                 this.monuments = monuments;
                 monuments
                     .forEach(m => m.icon_code = m.tip_patrimoniu.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toUpperCase().replace('PATRIMONIU ', '').replace(/\s+/g, '_'));
@@ -27,9 +87,10 @@ export class MonumentsService implements OnModuleInit {
 
                 this.geoJSON = GeoJSON.parse(this.monuments.filter(m => m.longitudine_x && m.latitudine_y), {
                     Point: ['latitudine_y', 'longitudine_x'],
-                    include: includedProps
+                    include: includedProps,
                 });
-                // console.log(this.geoJSON);
+                // this.geoJSON.features.unshift(poly.features[0]);
+                this.geoJSON.features.shift();
 
             } else {
                 this.logger.debug(`???? ${path}, ${__dirname}`);
@@ -37,7 +98,6 @@ export class MonumentsService implements OnModuleInit {
         } catch (err) {
             this.logger.error(err);
         }
-
     }
 
     findAll(): any {
@@ -46,6 +106,10 @@ export class MonumentsService implements OnModuleInit {
 
     getGeoJSON(): any {
         return this.geoJSON;
+    }
+
+    getPolygonsGeoJSON(): any {
+        return this.polygonsGeoJSON;
     }
 
     getMonumentTypes(prop): any {
@@ -136,7 +200,7 @@ export class MonumentsService implements OnModuleInit {
                             title: sectiune,
                             images: [item],
                         });
-                    };
+                    }
                 } else {
                     // console.log('dateIndex: else branch');
                     dates.push(date);

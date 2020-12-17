@@ -6,7 +6,7 @@
         class="aller-font"
         v-if="$q.platform.is.desktop"
     >
-      <!-- photo gallery -->
+      <!-- lmi2015 photo gallery -->
       <album-dates></album-dates>
       <album-sections></album-sections>
       <album-photo-gallery></album-photo-gallery>
@@ -23,6 +23,7 @@
           <!-- left panel toggle icon -->
           <q-btn dense flat round icon="menu" @click="toggleLeftPanel"/>
 
+          <!-- title -->
           <q-toolbar-title class="row items-center">
             <img
                 class="q-pr-xs"
@@ -49,6 +50,7 @@
         </q-tabs>
       </q-header>
 
+      <!-- left panel -->
       <q-drawer
           v-if="!isHomeRoute"
           :overlay="true"
@@ -61,6 +63,7 @@
         <search-panel></search-panel>
       </q-drawer>
 
+      <!-- right panel -->
       <q-drawer
           v-if="!isHomeRoute"
           v-model="monumentInfoShown"
@@ -73,6 +76,7 @@
         <info-panel></info-panel>
       </q-drawer>
 
+      <!-- page container -->
       <q-page-container id="map-enclosure">
         <router-view/>
       </q-page-container>
@@ -190,8 +194,8 @@ export default {
     AlbumDates,
     AlbumSections,
     AlbumPhotoGallery,
-  }
-  ,
+  },
+
   computed: {
     // if home route, hide all bars and panels
     isHomeRoute() {
@@ -212,8 +216,7 @@ export default {
       get() {
         // console.log('app: getRightPanel');
         return this.$store.state.monuments.rightPanel;
-      }
-      ,
+      },
       set: function (value) {
         // console.log('app: setRightPanel: ', value);
         this.$store.dispatch('monuments/setRightPanel', value);
@@ -226,8 +229,7 @@ export default {
             this.$store.state.monuments.selectedItem &&
             !!this.$store.state.monuments.selectedItem['cod_lmi']
         );
-      }
-      ,
+      },
       set: function (value) {
         // console.log('app: setMonumentInfoShown: ', value);
         this.$store.dispatch('monuments/setRightPanel', value);
@@ -237,6 +239,7 @@ export default {
       monumentDisplayed: (state) => state.monuments.monumentDisplayed,
     }),
   },
+
   methods: {
     toggleLeftPanel() {
       this.$store.dispatch('monuments/toggleLeftPanel');
@@ -261,6 +264,7 @@ export default {
   },
 };
 </script>
+
 
 <style lang="sass" scoped>
 img
